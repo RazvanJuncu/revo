@@ -9,10 +9,14 @@
 <meta name="theme-color" content="#000000" />
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./icon-180.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <title>Finance UI Demo</title>
 
 <style>
 :root{
+  --project-license:"SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION";
   --black:#000;
   --card:#18181a;
   --card-hi:#202022;
@@ -24,8 +28,8 @@
   --muted-dim:#707075;
   --green:#1dc9b0;
   --blue:#75a1ff;
-  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
-  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --display:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{
@@ -48,6 +52,7 @@ button,input{font:inherit}
   color:rgba(255,255,255,.42);font-size:8.5px;line-height:11px;font-weight:700;
   letter-spacing:.075em;text-transform:uppercase;white-space:nowrap
 }
+.project-mark::after{content:var(--project-license)}
 
 /* TRANSACTION LIST */
 .list-head{padding:0 17px}
@@ -56,8 +61,8 @@ button,input{font:inherit}
   display:grid;place-items:center;font-size:38px;line-height:1;font-weight:200;padding:0;cursor:pointer
 }
 .balance{
-  margin-top:9px;font-family:var(--display);font-size:38px;line-height:41px;font-weight:730;
-  letter-spacing:-1.35px;font-variant-numeric:tabular-nums
+  margin-top:9px;font-family:var(--display);font-size:38px;line-height:41px;font-weight:700;
+  letter-spacing:-1.55px;font-variant-numeric:tabular-nums
 }
 .balance .minor{font-size:25px;letter-spacing:-.75px}
 .balance-label{margin-top:5px;color:#737378;font-size:15px;line-height:19px;font-weight:500;letter-spacing:-.28px}
@@ -77,9 +82,9 @@ button,input{font:inherit}
 
 .section{padding:0 17px 4px}
 .section-heading{display:flex;justify-content:space-between;align-items:baseline;margin:13px 0 11px}
-.section-title{font-family:var(--display);font-size:22px;line-height:27px;font-weight:720;letter-spacing:-.56px}
+.section-title{font-family:var(--display);font-size:22px;line-height:27px;font-weight:700;letter-spacing:-.48px}
 .section-total{
-  color:#a0a0a5;font-size:17px;line-height:21px;font-weight:650;letter-spacing:-.36px;
+  color:#a0a0a5;font-size:17px;line-height:21px;font-weight:600;letter-spacing:-.20px;
   font-variant-numeric:tabular-nums
 }
 .tx-card{background:var(--card);border-radius:17px;overflow:hidden;padding:1px 0}
@@ -92,7 +97,7 @@ button,input{font:inherit}
 .tx-logo{
   width:44px;height:44px;display:grid;place-items:center;position:relative;overflow:visible;flex:none
 }
-.tx-logo img{width:44px;height:44px;display:block;object-fit:contain}
+.tx-logo img{width:44px;height:44px;display:block;object-fit:contain;border-radius:50%}
 .person-badge{
   position:absolute;right:-4px;bottom:-3px;width:21px;height:21px;border:2px solid var(--card);
   border-radius:50%;background:#f7f7f8;color:#171719;display:grid;place-items:center;
@@ -100,15 +105,15 @@ button,input{font:inherit}
 }
 .tx-name{
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font-family:var(--display);font-size:18px;line-height:22px;font-weight:690;letter-spacing:-.38px
+  font-family:var(--display);font-size:18px;line-height:22px;font-weight:600;letter-spacing:-.30px
 }
 .tx-time{
-  margin-top:2px;color:#9a9a9f;font-size:15px;line-height:19px;font-weight:430;
-  letter-spacing:-.25px;font-variant-numeric:tabular-nums
+  margin-top:2px;color:#9a9a9f;font-size:15px;line-height:19px;font-weight:400;
+  letter-spacing:-.08px;font-variant-numeric:tabular-nums
 }
 .tx-amount{
   align-self:start;padding-top:4px;white-space:nowrap;text-align:right;
-  font-size:17px;line-height:21px;font-weight:520;letter-spacing:-.33px;
+  font-size:17px;line-height:21px;font-weight:500;letter-spacing:-.16px;
   font-variant-numeric:tabular-nums
 }
 .tx-amount.positive{color:var(--green)}
@@ -130,15 +135,15 @@ button,input{font:inherit}
 .merchant{margin-top:48px;text-align:center;display:flex;flex-direction:column;align-items:center}
 .detail-logo{width:78px;height:78px;border-radius:50%;overflow:hidden;background:#fff}
 .detail-logo img{display:block;width:100%;height:100%;object-fit:cover}
-.detail-name{margin-top:18px;font-size:20px;line-height:24px;font-weight:680;letter-spacing:-.42px}
+.detail-name{margin-top:18px;font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.28px}
 .detail-amount{
-  margin-top:10px;font-family:var(--display);font-size:46px;line-height:50px;font-weight:700;
-  letter-spacing:-1.45px;font-variant-numeric:tabular-nums
+  margin-top:10px;font-family:var(--display);font-size:46px;line-height:50px;font-weight:600;
+  letter-spacing:-1.10px;font-variant-numeric:tabular-nums
 }
-.detail-date{margin-top:11px;font-size:17px;line-height:22px;font-weight:430;letter-spacing:-.32px}
+.detail-date{margin-top:11px;font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.10px}
 .split{
   margin-top:26px;border:0;border-radius:24px;background:#363638;color:#fff;height:46px;padding:0 19px;
-  display:inline-flex;align-items:center;gap:10px;font-size:16px;line-height:20px;font-weight:650;letter-spacing:-.28px
+  display:inline-flex;align-items:center;gap:10px;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.10px
 }
 .detail-body{padding:0 17px 25px;background:var(--detail)}
 .info{
@@ -150,14 +155,14 @@ button,input{font:inherit}
   display:grid;place-items:center;font-size:20px
 }
 .reward-close{position:absolute;right:16px;top:12px;color:#77777b;font-size:23px;font-weight:700}
-.reward-title{font-size:18px;line-height:22px;font-weight:700;letter-spacing:-.36px}
-.reward-copy{margin-top:2px;color:#9b9ba0;font-size:17px;line-height:21px;font-weight:430;letter-spacing:-.30px}
+.reward-title{font-size:18px;line-height:22px;font-weight:600;letter-spacing:-.20px}
+.reward-copy{margin-top:2px;color:#9b9ba0;font-size:17px;line-height:21px;font-weight:400;letter-spacing:-.10px}
 .reward-button{
   width:calc(100% + 58px);margin-left:-58px;margin-top:16px;height:46px;border:0;border-radius:24px;
-  background:#49494c;color:#fff;font-size:16px;line-height:20px;font-weight:650;letter-spacing:-.28px
+  background:#49494c;color:#fff;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.10px
 }
-.label{color:#a6a6ab;font-size:16px;line-height:20px;font-weight:620;letter-spacing:-.28px;margin-bottom:8px}
-.value{font-size:17px;line-height:22px;font-weight:430;letter-spacing:-.30px}
+.label{color:#a6a6ab;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.12px;margin-bottom:8px}
+.value{font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.10px}
 .row-between{display:flex;justify-content:space-between;align-items:center;gap:18px}
 .card-brand{color:var(--blue);font-weight:600}
 .detail-bottom{height:calc(20px + env(safe-area-inset-bottom))}
@@ -176,7 +181,7 @@ button,input{font:inherit}
       <button class="back-btn" aria-label="Zurück">‹</button>
       <div class="balance">2.327<span class="minor">,26 lei</span></div>
       <div class="balance-label">Aktueller Kontostand</div>
-      <div class="project-mark" id="licenseList">SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION</div>
+      <div class="project-mark" id="licenseList" aria-label="School project license"></div>
     </header>
 
     <div class="search-row">
@@ -194,7 +199,104 @@ button,input{font:inherit}
       </button>
     </div>
 
-    <main id="groups"></main>
+    <main id="groups">
+      <section class="section" data-group="today">
+        <div class="section-heading">
+          <div class="section-title" id="todayLabel">Heute</div>
+          <div class="section-total">+1.904,76 lei</div>
+        </div>
+        <div class="tx-card">
+          <button class="tx" id="latestTransaction" type="button">
+            <div class="tx-logo"><img src="./stb.png" alt=""></div>
+            <div><div class="tx-name">STB Bucuresti</div><div class="tx-time" id="timeLatest">19:42</div></div>
+            <div class="tx-amount">-3 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./metrorex.png" alt=""></div>
+            <div><div class="tx-name">Metrorex</div><div class="tx-time" id="timeMetroToday">11:20</div></div>
+            <div class="tx-amount">-5 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./stb.png" alt=""></div>
+            <div><div class="tx-name">STB Bucuresti</div><div class="tx-time" id="timeStbBig">10:54</div></div>
+            <div class="tx-amount">-80 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./mega-image.png" alt=""></div>
+            <div><div class="tx-name">Mega Image</div><div class="tx-time" id="timeMegaToday">10:32</div></div>
+            <div class="tx-amount">-7,24 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./radu.png" alt=""><span class="person-badge">←</span></div>
+            <div><div class="tx-name">Radu Teodor Juncu</div><div class="tx-time" id="timeRadu">08:24</div></div>
+            <div class="tx-amount positive">+2.000 lei</div>
+          </button>
+        </div>
+      </section>
+
+      <section class="section" data-group="yesterday">
+        <div class="section-heading">
+          <div class="section-title">Gestern</div>
+          <div class="section-total">-42,55 lei</div>
+        </div>
+        <div class="tx-card">
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./mega-image.png" alt=""></div>
+            <div><div class="tx-name">Mega Image</div><div class="tx-time">19:07</div></div>
+            <div class="tx-amount">-4,79 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./metrorex.png" alt=""></div>
+            <div><div class="tx-name">Metrorex</div><div class="tx-time">17:42</div></div>
+            <div class="tx-amount">-5 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./stb.png" alt=""></div>
+            <div><div class="tx-name">STB Bucuresti</div><div class="tx-time">16:20</div></div>
+            <div class="tx-amount">-3 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./mega-image.png" alt=""></div>
+            <div><div class="tx-name">Mega Image</div><div class="tx-time">13:05</div></div>
+            <div class="tx-amount">-12,76 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./metrorex.png" alt=""></div>
+            <div><div class="tx-name">Metrorex</div><div class="tx-time">09:35</div></div>
+            <div class="tx-amount">-17 lei</div>
+          </button>
+        </div>
+      </section>
+
+      <section class="section" data-group="older">
+        <div class="section-heading">
+          <div class="section-title" id="olderLabel">15. September</div>
+          <div class="section-total">-27,74 lei</div>
+        </div>
+        <div class="tx-card">
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./stb.png" alt=""></div>
+            <div><div class="tx-name">STB Bucuresti</div><div class="tx-time">18:26</div></div>
+            <div class="tx-amount">-3 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./mega-image.png" alt=""></div>
+            <div><div class="tx-name">Mega Image</div><div class="tx-time">16:11</div></div>
+            <div class="tx-amount">-11,49 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./metrorex.png" alt=""></div>
+            <div><div class="tx-name">Metrorex</div><div class="tx-time">13:38</div></div>
+            <div class="tx-amount">-5 lei</div>
+          </button>
+          <button class="tx" type="button">
+            <div class="tx-logo"><img src="./mega-image.png" alt=""></div>
+            <div><div class="tx-name">Mega Image</div><div class="tx-time">09:52</div></div>
+            <div class="tx-amount">-8,25 lei</div>
+          </button>
+        </div>
+      </section>
+    </main>
     <div class="list-bottom"></div>
   </div>
 </section>
@@ -207,7 +309,7 @@ button,input{font:inherit}
         <button class="more" aria-label="Mehr">•••</button>
       </div>
 
-      <div class="detail-license project-mark" id="licenseDetail">SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION</div>
+      <div class="detail-license project-mark" id="licenseDetail" aria-label="School project license"></div>
 
       <div class="merchant">
         <div class="detail-logo"><img src="./stb.png" alt="STB"></div>
@@ -251,172 +353,102 @@ button,input{font:inherit}
 
 <script>
 (() => {
-  // ==========================
-  // PROJECT SETTINGS
-  // ==========================
-  const PROJECT_LICENSE_TEXT = "SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION";
   const PAYMENT_AGE_MINUTES = 12;
-  // ==========================
 
   const now = new Date();
   const payment = new Date(now.getTime() - PAYMENT_AGE_MINUTES * 60000);
 
-  document.getElementById("licenseList").textContent = PROJECT_LICENSE_TEXT;
-  document.getElementById("licenseDetail").textContent = PROJECT_LICENSE_TEXT;
-
-  const pad = n => String(n).padStart(2,"0");
+  const pad = n => String(n).padStart(2, "0");
   const hm = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
   const sameDay = (a,b) =>
     a.getFullYear()===b.getFullYear() &&
     a.getMonth()===b.getMonth() &&
     a.getDate()===b.getDate();
 
-  const deLong = d => new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(d);
-  const deShort = d => new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit"}).format(d);
+  const deLong = d =>
+    new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(d);
 
-  const money = n => {
-    const a=Math.abs(n);
-    const formatted=a.toLocaleString("de-DE",{
-      minimumFractionDigits:Number.isInteger(a)?0:2,
-      maximumFractionDigits:2
-    });
-    return `${n>=0?"+":"-"}${formatted} lei`;
+  const setText = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
   };
 
-  // Today's four other entries are always on the payment's calendar day
-  // and always earlier than the current -12 minute STB payment.
+  // Latest payment
+  setText("timeLatest", hm(payment));
+  setText("todayLabel", sameDay(payment, now) ? "Heute" : "Gestern");
+
+  // Scatter the other same-day entries before the latest payment.
   const midnight = new Date(payment);
   midnight.setHours(0,0,0,0);
-  const elapsed = Math.max(10,(payment-midnight)/60000);
-  const fractions=[.43,.455,.474,.565];
+  const elapsed = Math.max(30, (payment - midnight) / 60000);
 
-  const earlierToday=fractions.map(f=>{
-    const minutesBack=Math.max(1,Math.round(elapsed*f));
-    const t=new Date(payment.getTime()-minutesBack*60000);
-    if(t<midnight) return new Date(midnight.getTime()+5*60000);
-    return t;
-  });
-
-  const yesterday = new Date(payment);
-  yesterday.setDate(yesterday.getDate()-1);
-  const at=(base,h,m)=>{
-    const d=new Date(base); d.setHours(h,m,0,0); return d;
+  const makeEarlier = fraction => {
+    const back = Math.max(4, Math.round(elapsed * fraction));
+    const t = new Date(payment.getTime() - back * 60000);
+    return t < midnight ? new Date(midnight.getTime() + 5*60000) : t;
   };
 
+  setText("timeMetroToday", hm(makeEarlier(.43)));
+  setText("timeStbBig", hm(makeEarlier(.455)));
+  setText("timeMegaToday", hm(makeEarlier(.474)));
+  setText("timeRadu", hm(makeEarlier(.565)));
+
   const older = new Date(payment);
-  older.setDate(older.getDate()-2);
+  older.setDate(older.getDate() - 2);
+  setText("olderLabel", deLong(older));
 
-  const groups=[
-    {
-      label:sameDay(payment,now)?"Heute":"Gestern",
-      rows:[
-        {id:"latest",name:"STB Bucuresti",amount:-3,time:payment,logo:"stb.png",click:true},
-        {name:"Metrorex",amount:-5,time:earlierToday[0],logo:"metrorex.png"},
-        {name:"STB Bucuresti",amount:-80,time:earlierToday[1],logo:"stb.png"},
-        {name:"Mega Image",amount:-7.24,time:earlierToday[2],logo:"mega-image.png"},
-        {name:"Radu Teodor Juncu",amount:2000,time:earlierToday[3],logo:"radu.png",person:true}
-      ]
-    },
-    {
-      label:"Gestern",
-      rows:[
-        {name:"Mega Image",amount:-4.79,time:at(yesterday,19,7),logo:"mega-image.png"},
-        {name:"Metrorex",amount:-5,time:at(yesterday,17,42),logo:"metrorex.png"},
-        {name:"STB Bucuresti",amount:-3,time:at(yesterday,16,20),logo:"stb.png"},
-        {name:"Mega Image",amount:-12.76,time:at(yesterday,13,5),logo:"mega-image.png"},
-        {name:"Metrorex",amount:-17,time:at(yesterday,9,35),logo:"metrorex.png"}
-      ]
-    },
-    {
-      label:new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(older),
-      rows:[
-        {name:"STB Bucuresti",amount:-3,time:at(older,18,26),logo:"stb.png"},
-        {name:"Mega Image",amount:-11.49,time:at(older,16,11),logo:"mega-image.png"},
-        {name:"Metrorex",amount:-5,time:at(older,13,38),logo:"metrorex.png"},
-        {name:"Mega Image",amount:-8.25,time:at(older,9,52),logo:"mega-image.png"}
-      ]
-    }
-  ];
+  // Detail page
+  const listPage = document.getElementById("listPage");
+  const detailPage = document.getElementById("detailPage");
+  const latest = document.getElementById("latestTransaction");
 
-  const total=rows=>rows.reduce((s,r)=>s+r.amount,0);
+  const openDetail = () => {
+    setText("detailDate", `${sameDay(payment,now) ? "Heute" : deLong(payment)}, ${hm(payment)}`);
 
-  function logo(row){
-    return `<div class="tx-logo">
-      <img src="./${row.logo}" alt="">
-      ${row.person?'<span class="person-badge">←</span>':""}
-    </div>`;
-  }
-
-  function render(filter=""){
-    const q=filter.trim().toLocaleLowerCase("de-DE");
-    const host=document.getElementById("groups");
-    host.innerHTML="";
-
-    groups.forEach(group=>{
-      const visible=group.rows.filter(r=>!q||r.name.toLocaleLowerCase("de-DE").includes(q));
-      if(!visible.length) return;
-
-      const section=document.createElement("section");
-      section.className="section";
-      section.innerHTML=`
-        <div class="section-heading">
-          <div class="section-title">${group.label}</div>
-          <div class="section-total">${money(total(group.rows))}</div>
-        </div>
-        <div class="tx-card"></div>
-      `;
-
-      const card=section.querySelector(".tx-card");
-
-      visible.forEach(row=>{
-        const b=document.createElement("button");
-        b.type="button";
-        b.className="tx";
-        b.innerHTML=`
-          ${logo(row)}
-          <div>
-            <div class="tx-name">${row.name}</div>
-            <div class="tx-time">${hm(row.time)}</div>
-          </div>
-          <div class="tx-amount ${row.amount>0?"positive":""}">${money(row.amount)}</div>
-        `;
-        if(row.click) b.addEventListener("click",openDetail);
-        card.appendChild(b);
-      });
-
-      host.appendChild(section);
-    });
-  }
-
-  const listPage=document.getElementById("listPage");
-  const detailPage=document.getElementById("detailPage");
-
-  function openDetail(){
-    document.getElementById("detailDate").textContent =
-      `${sameDay(payment,now)?"Heute":deLong(payment)}, ${hm(payment)}`;
-
-    const reversal=new Date(payment);
-    reversal.setDate(reversal.getDate()+9);
-
-    document.getElementById("status").textContent =
-      `Ausstehend • Wird am ${deLong(reversal)} automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht`;
+    const reversal = new Date(payment);
+    reversal.setDate(reversal.getDate() + 9);
+    setText(
+      "status",
+      `Ausstehend • Wird am ${deLong(reversal)} automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht`
+    );
 
     listPage.classList.add("hidden-left");
     detailPage.classList.remove("hidden-right");
-    detailPage.querySelector(".scroll").scrollTop=0;
-  }
+    detailPage.querySelector(".scroll").scrollTop = 0;
+  };
 
-  document.getElementById("closeDetail").addEventListener("click",()=>{
+  if (latest) latest.addEventListener("click", openDetail);
+
+  document.getElementById("closeDetail")?.addEventListener("click", () => {
     listPage.classList.remove("hidden-left");
     detailPage.classList.add("hidden-right");
   });
 
-  document.getElementById("search").addEventListener("input",e=>render(e.target.value));
+  // Search filters existing rows rather than rebuilding the whole page.
+  document.getElementById("search")?.addEventListener("input", e => {
+    const q = e.target.value.trim().toLocaleLowerCase("de-DE");
+    document.querySelectorAll(".tx").forEach(row => {
+      const name = row.querySelector(".tx-name")?.textContent.toLocaleLowerCase("de-DE") || "";
+      row.style.display = !q || name.includes(q) ? "" : "none";
+    });
 
-  render();
+    document.querySelectorAll(".section").forEach(section => {
+      const anyVisible = [...section.querySelectorAll(".tx")].some(row => row.style.display !== "none");
+      section.style.display = anyVisible ? "" : "none";
+    });
+  });
 
-  if("serviceWorker" in navigator && location.protocol==="https:"){
-    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  // Existing GitHub Pages installs may still have an old service worker.
+  // Unregister it and clear caches; this demo does not need offline caching.
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.getRegistrations()
+      .then(regs => Promise.all(regs.map(r => r.unregister())))
+      .catch(() => {});
+  }
+  if ("caches" in window) {
+    caches.keys()
+      .then(keys => Promise.all(keys.map(k => caches.delete(k))))
+      .catch(() => {});
   }
 })();
 </script>

@@ -23,3 +23,12 @@ Settings → Pages → Deploy from a branch → main → /(root).
 
 On iPhone:
 Safari → Share → Add to Home Screen → Open as Web App.
+
+## Typography update
+Public design-system analyses consistently identify Aeonik Pro for Revolut display typography and Inter for body/UI.
+Aeonik Pro is proprietary, so this package does not redistribute it. The mockup loads Inter from Google Fonts and
+uses tuned weights/letter-spacing to approximate the app UI closely without bundling proprietary font files.
+
+## Metrorex
+`metrorex.png` was redrawn from the official Metrorex logo geometry referenced on Wikimedia Commons, which identifies
+Metrorex as the author/source of the logo.
