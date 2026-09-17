@@ -8,9 +8,9 @@
 <meta name="apple-mobile-web-app-title" content="Revolut" />
 <meta name="theme-color" content="#000000" />
 <link rel="manifest" href="./manifest.webmanifest" />
-<link rel="apple-touch-icon" href="./icon-180.png" />
-<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
-<link rel="icon" type="image/png" sizes="64x64" href="./favicon-64.png" />
+<link rel="apple-touch-icon" href="./icon-v15-180.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-v15-32.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="./favicon-v15-64.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500&display=swap" rel="stylesheet" />
@@ -143,8 +143,8 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
 .close{font-size:38px;font-weight:200;line-height:1}
 .more{font-size:27px;letter-spacing:2px;padding-bottom:7px}
 .detail-license{position:absolute;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 18px)}
-.merchant{margin-top:48px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.detail-logo{width:72px;height:72px;border-radius:50%;overflow:hidden;background:#fff}
+.merchant{margin-top:42px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.detail-logo{width:86px;height:86px;border-radius:50%;overflow:hidden;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.22),0 0 0 2px rgba(255,255,255,.06) inset}
 .detail-logo img{display:block;width:100%;height:100%;object-fit:cover}
 .detail-name{
   margin-top:15px;
@@ -189,9 +189,10 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
   letter-spacing:-.05px
 }
 .split-icon{
-  width:21px;
-  height:21px;
+  width:24px;
+  height:24px;
   object-fit:contain;
+  object-position:center;
   display:block;
   flex:none
 }
@@ -202,11 +203,12 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
 .reward{position:relative;min-height:130px;padding:15px 17px 14px 75px}
 .reward-icon{
   position:absolute;
-  left:17px;
-  top:17px;
-  width:44px;
-  height:44px;
+  left:14px;
+  top:14px;
+  width:52px;
+  height:52px;
   object-fit:contain;
+  object-position:center;
   display:block
 }
 .reward-close{position:absolute;right:16px;top:12px;color:#77777b;font-size:23px;font-weight:700}
