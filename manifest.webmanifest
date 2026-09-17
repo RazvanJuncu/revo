@@ -1,6 +1,6 @@
 {
-  "name": "Finance UI Demo \u2014 School Project",
-  "short_name": "Finance Demo",
+  "name": "Revolut",
+  "short_name": "Revolut",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

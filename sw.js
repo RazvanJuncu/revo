@@ -1,3 +1,4 @@
+/* finance-ui-v6 */
 self.addEventListener("install", event => {
   self.skipWaiting();
 });

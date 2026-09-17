@@ -5,18 +5,28 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-mobile-web-app-title" content="Finance UI Demo" />
+<meta name="apple-mobile-web-app-title" content="Revolut" />
 <meta name="theme-color" content="#000000" />
 <link rel="manifest" href="./manifest.webmanifest" />
 <link rel="apple-touch-icon" href="./icon-180.png" />
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+<link rel="icon" type="image/png" sizes="64x64" href="./favicon-64.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-<title>Finance UI Demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500&display=swap" rel="stylesheet" />
+<title>Revolut</title>
 
 <style>
+@font-face{
+  font-family:"Aeonik Pro Remote";
+  src:url("https://assets.revolut.com/assets/fonts/AeonikPro-Medium.woff2") format("woff2");
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+}
+
 :root{
-  --project-license:"RAZVAN ANDREI JUNCU";
+  --project-license:"SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION";
   --black:#000;
   --card:#18181a;
   --card-hi:#202022;
@@ -29,21 +39,21 @@
   --green:#1dc9b0;
   --blue:#75a1ff;
   --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  --display:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --display:"Aeonik Pro Remote","Inter Tight","Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{
-  margin:0;width:100%;height:100%;background:#000;color:var(--text);
+  margin:0;width:100%;height:100%;min-height:100dvh;background:#000;color:var(--text);
   font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
   font-synthesis:none;overscroll-behavior:none;
 }
-body{position:fixed;inset:0;overflow:hidden}
+body{position:fixed;inset:0;width:100vw;height:100dvh;min-height:100dvh;overflow:hidden}
 button,input{font:inherit}
-.app{position:absolute;inset:0;margin:auto;width:100%;max-width:430px;background:#000;overflow:hidden}
-.page{position:absolute;inset:0;background:#000;transition:transform .22s cubic-bezier(.22,.8,.26,1),opacity .2s}
+.app{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;height:calc(100dvh + env(safe-area-inset-bottom));max-width:430px;background:#000;overflow:hidden}
+.page{position:absolute;top:0;left:0;right:0;height:100%;background:#000;transition:transform .22s cubic-bezier(.22,.8,.26,1),opacity .2s}
 .page.hidden-right{transform:translateX(100%);pointer-events:none}
 .page.hidden-left{transform:translateX(-15%);opacity:.38;pointer-events:none}
-.scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.scroll{position:absolute;top:0;left:0;right:0;height:100%;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .scroll::-webkit-scrollbar{display:none}
 .safe-top{height:calc(env(safe-area-inset-top) + 2px)}
 
@@ -61,8 +71,8 @@ button,input{font:inherit}
   display:grid;place-items:center;font-size:38px;line-height:1;font-weight:200;padding:0;cursor:pointer
 }
 .balance{
-  margin-top:9px;font-family:var(--display);font-size:38px;line-height:41px;font-weight:700;
-  letter-spacing:-1.55px;font-variant-numeric:tabular-nums
+  margin-top:9px;font-family:var(--display);font-size:38px;line-height:41px;font-weight:500;
+  letter-spacing:-.95px;font-variant-numeric:tabular-nums
 }
 .balance .minor{font-size:25px;letter-spacing:-.75px}
 .balance-label{margin-top:5px;color:#737378;font-size:15px;line-height:19px;font-weight:500;letter-spacing:-.28px}
@@ -82,7 +92,7 @@ button,input{font:inherit}
 
 .section{padding:0 17px 4px}
 .section-heading{display:flex;justify-content:space-between;align-items:baseline;margin:13px 0 11px}
-.section-title{font-family:var(--display);font-size:22px;line-height:27px;font-weight:700;letter-spacing:-.48px}
+.section-title{font-family:var(--display);font-size:22px;line-height:27px;font-weight:500;letter-spacing:-.22px}
 .section-total{
   color:#a0a0a5;font-size:17px;line-height:21px;font-weight:600;letter-spacing:-.20px;
   font-variant-numeric:tabular-nums
@@ -105,7 +115,7 @@ button,input{font:inherit}
 }
 .tx-name{
   overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-  font-family:var(--display);font-size:18px;line-height:22px;font-weight:600;letter-spacing:-.30px
+  font-family:var(--display);font-size:18px;line-height:22px;font-weight:500;letter-spacing:-.12px
 }
 .tx-time{
   margin-top:2px;color:#9a9a9f;font-size:15px;line-height:19px;font-weight:400;
@@ -121,8 +131,9 @@ button,input{font:inherit}
 
 /* DETAIL */
 .detail-scroll{background:var(--detail)}
+body.detail-open,body.detail-open .app{background:var(--detail)}
 .hero{
-  min-height:404px;padding:calc(env(safe-area-inset-top) + 6px) 17px 23px;
+  min-height:378px;padding:calc(env(safe-area-inset-top) + 6px) 17px 23px;
   background:
     radial-gradient(circle at 50% 29%,rgba(255,255,255,.20),transparent 23%),
     linear-gradient(180deg,#898587 0%,#6b6769 22%,#454345 47%,#262628 72%,#1b1b1d 100%)
@@ -133,41 +144,282 @@ button,input{font:inherit}
 .more{font-size:27px;letter-spacing:2px;padding-bottom:7px}
 .detail-license{position:absolute;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 18px)}
 .merchant{margin-top:48px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.detail-logo{width:78px;height:78px;border-radius:50%;overflow:hidden;background:#fff}
+.detail-logo{width:72px;height:72px;border-radius:50%;overflow:hidden;background:#fff}
 .detail-logo img{display:block;width:100%;height:100%;object-fit:cover}
-.detail-name{margin-top:18px;font-size:20px;line-height:24px;font-weight:600;letter-spacing:-.28px}
+.detail-name{
+  margin-top:15px;
+  font-family:var(--display);
+  font-size:18px;
+  line-height:24px;
+  font-weight:500;
+  letter-spacing:-.18px
+}
 .detail-amount{
-  margin-top:10px;font-family:var(--display);font-size:46px;line-height:50px;font-weight:600;
-  letter-spacing:-1.10px;font-variant-numeric:tabular-nums
+  margin-top:9px;
+  font-family:var(--display);
+  font-size:43px;
+  line-height:47px;
+  font-weight:500;
+  letter-spacing:-.45px;
+  font-variant-numeric:tabular-nums
 }
-.detail-date{margin-top:11px;font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.10px}
+.detail-date{
+  margin-top:10px;
+  font-family:var(--font);
+  font-size:16px;
+  line-height:22px;
+  font-weight:400;
+  letter-spacing:-.05px
+}
 .split{
-  margin-top:26px;border:0;border-radius:24px;background:#363638;color:#fff;height:46px;padding:0 19px;
-  display:inline-flex;align-items:center;gap:10px;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.10px
+  margin-top:21px;
+  border:0;
+  border-radius:24px;
+  background:#363638;
+  color:#fff;
+  height:43px;
+  padding:0 18px;
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  font-family:var(--font);
+  font-size:16px;
+  line-height:20px;
+  font-weight:600;
+  letter-spacing:-.05px
 }
-.detail-body{padding:0 17px 25px;background:var(--detail)}
+.detail-body{min-height:calc(100dvh - 378px);padding:0 17px calc(34px + env(safe-area-inset-bottom));background:var(--detail)}
 .info{
   margin-bottom:14px;padding:15px 17px;background:var(--detail-card);border-radius:16px
 }
-.reward{position:relative;min-height:142px;padding:17px 17px 17px 75px}
+.reward{position:relative;min-height:130px;padding:15px 17px 14px 75px}
 .reward-icon{
   position:absolute;left:17px;top:17px;width:44px;height:44px;border-radius:50%;background:#444447;
   display:grid;place-items:center;font-size:20px
 }
 .reward-close{position:absolute;right:16px;top:12px;color:#77777b;font-size:23px;font-weight:700}
-.reward-title{font-size:18px;line-height:22px;font-weight:600;letter-spacing:-.20px}
+.reward-title{
+  font-family:var(--display);
+  font-size:18px;
+  line-height:24px;
+  font-weight:500;
+  letter-spacing:-.15px
+}
 .reward-copy{margin-top:2px;color:#9b9ba0;font-size:17px;line-height:21px;font-weight:400;letter-spacing:-.10px}
 .reward-button{
-  width:calc(100% + 58px);margin-left:-58px;margin-top:16px;height:46px;border:0;border-radius:24px;
-  background:#49494c;color:#fff;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.10px
+  width:calc(100% + 58px);
+  margin-left:-58px;
+  margin-top:10px;
+  height:43px;
+  border:0;
+  border-radius:24px;
+  background:#49494c;
+  color:#fff;
+  font-family:var(--font);
+  font-size:16px;
+  line-height:20px;
+  font-weight:600;
+  letter-spacing:-.05px
 }
-.label{color:#a6a6ab;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.12px;margin-bottom:8px}
-.value{font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.10px}
+.label{color:#a6a6ab;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.08px;margin-bottom:8px}
+.value{font-size:16px;line-height:22px;font-weight:400;letter-spacing:-.08px}
 .row-between{display:flex;justify-content:space-between;align-items:center;gap:18px}
 .card-brand{color:var(--blue);font-weight:600}
 .detail-bottom{height:calc(20px + env(safe-area-inset-bottom))}
 
 @media(min-width:431px){body{background:#111}.app{box-shadow:0 0 30px rgba(0,0,0,.55)}}
+
+/* Lower transaction details, matched to the user's original scrolled screenshot */
+.sticky-detail-bar{
+  position:absolute;
+  z-index:40;
+  left:0;right:0;
+  top:env(safe-area-inset-top);
+  height:54px;
+  padding:0 16px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#303032;
+  transform:translateY(-110%);
+  opacity:0;
+  pointer-events:none;
+  transition:transform .18s ease,opacity .18s ease;
+  box-shadow:0 1px 0 rgba(255,255,255,.025);
+}
+.sticky-detail-bar.visible{
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+.sticky-detail-title{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  font-family:var(--display);
+  font-size:18px;
+  line-height:22px;
+  font-weight:500;
+  letter-spacing:-.12px;
+  white-space:nowrap;
+}
+.sticky-x,.sticky-more{
+  width:38px;height:38px;border:0;background:transparent;color:#fff;
+  display:grid;place-items:center;padding:0
+}
+.sticky-x{font-size:35px;font-weight:200;line-height:1}
+.sticky-more{font-size:26px;letter-spacing:2px;padding-bottom:7px}
+
+.detail-multi-card{
+  padding:0;
+  overflow:hidden;
+}
+.detail-line{
+  min-height:72px;
+  padding:0 18px;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) auto;
+  gap:16px;
+  align-items:center;
+}
+.detail-line-left{
+  color:#a6a6ab;
+  font-size:16px;
+  line-height:21px;
+  font-weight:600;
+  letter-spacing:-.08px;
+}
+.detail-line-right{
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:9px;
+  color:var(--blue);
+  font-size:16px;
+  line-height:21px;
+  font-weight:600;
+  letter-spacing:-.06px;
+  text-align:right;
+}
+.detail-line-right.neutral{
+  color:#f5f5f7;
+  font-weight:500;
+}
+.orig-icon{
+  width:24px;
+  height:24px;
+  object-fit:contain;
+  flex:none;
+}
+.orig-icon.bus{width:26px;height:26px}
+.orig-icon.chev{width:20px;height:20px;opacity:.85}
+.analytics-card{
+  padding:7px 0;
+}
+.analytics-card .detail-line{
+  min-height:72px;
+}
+.switch{
+  width:56px;height:32px;border-radius:18px;background:#505054;position:relative;flex:none;
+}
+.switch::after{
+  content:"";
+  position:absolute;
+  left:3px;top:3px;
+  width:26px;height:26px;border-radius:50%;background:#fff;
+  box-shadow:0 1px 3px rgba(0,0,0,.22);
+}
+.group-link{
+  color:#f7f7f8;
+  font-weight:600;
+}
+#statementTrigger{cursor:pointer}
+#statementTrigger:active{background:rgba(255,255,255,.03)}
+.help-card{
+  min-height:70px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:14px;
+  padding:0 18px;
+}
+.help-title{
+  color:#f7f7f8;
+  font-size:17px;
+  line-height:22px;
+  font-weight:600;
+  letter-spacing:-.08px;
+}
+
+
+/* Statement viewer */
+.statement-page{
+  position:absolute;
+  inset:0;
+  background:#262629;
+  transform:translateX(100%);
+  transition:transform .22s cubic-bezier(.22,.8,.26,1),opacity .2s;
+  z-index:60;
+}
+.statement-page.visible{transform:translateX(0)}
+.statement-scroll{
+  position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  background:linear-gradient(180deg,#2b2b2e 0%, #232325 100%);
+}
+.statement-top{
+  position:sticky;top:0;z-index:4;
+  height:calc(env(safe-area-inset-top) + 64px);
+  padding-top:env(safe-area-inset-top);
+  display:flex;align-items:center;justify-content:space-between;
+  padding-left:16px;padding-right:16px;
+  background:linear-gradient(180deg,rgba(37,37,39,.98) 0%, rgba(37,37,39,.92) 80%, rgba(37,37,39,.88) 100%);
+  box-shadow:0 1px 0 rgba(255,255,255,.035);
+}
+.statement-back,.statement-share{
+  border:0;background:none;color:#fff;padding:0;display:grid;place-items:center;
+  width:40px;height:40px;cursor:pointer;
+}
+.statement-back{font-size:36px;font-weight:200;line-height:1}
+.statement-share svg{width:28px;height:28px;stroke:currentColor;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.statement-watermark{
+  position:absolute;left:50%;transform:translateX(-50%);
+  top:calc(env(safe-area-inset-top) + 19px);
+  color:rgba(255,255,255,.45);
+  font-family:var(--display);font-size:8px;line-height:10px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;pointer-events:none;
+}
+.statement-wrap{
+  padding:22px 6px calc(28px + env(safe-area-inset-bottom));
+}
+.statement-paper{
+  position:relative;
+  width:100%;
+  background:#efefef;
+  box-shadow:0 3px 18px rgba(0,0,0,.22);
+}
+.statement-paper img{
+  display:block;width:100%;height:auto;
+}
+.statement-date-overlay{
+  position:absolute;
+  top:11.3%;
+  right:6.9%;
+  width:25%;
+  text-align:right;
+  font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:1.17vw;
+  line-height:1.2;
+  color:#4a4a4f;
+  font-weight:500;
+}
+@media (min-width: 430px){
+  .statement-date-overlay{font-size:5px}
+}
+@media (max-width: 390px){
+  .statement-date-overlay{font-size:4.4px}
+}
+
 </style>
 </head>
 <body>
@@ -181,7 +433,7 @@ button,input{font:inherit}
       <button class="back-btn" aria-label="Zurück">‹</button>
       <div class="balance">2.327<span class="minor">,26 lei</span></div>
       <div class="balance-label">Aktueller Kontostand</div>
-      <div class="project-mark" id="licenseList" aria-label="RAZVAN ANDREI JUNCU"></div>
+      <div class="project-mark" id="licenseList" aria-label="School project license"></div>
     </header>
 
     <div class="search-row">
@@ -302,14 +554,20 @@ button,input{font:inherit}
 </section>
 
 <section class="page hidden-right" id="detailPage">
-  <div class="scroll detail-scroll">
+
+  <div class="sticky-detail-bar" id="stickyDetailBar">
+    <button class="sticky-x" id="stickyCloseDetail" aria-label="Schließen">×</button>
+    <div class="sticky-detail-title">STB Bucuresti</div>
+    <button class="sticky-more" aria-label="Mehr">•••</button>
+  </div>
+  <div class="scroll detail-scroll" id="detailScroll">
     <div class="hero">
       <div class="detail-top">
         <button class="close" id="closeDetail" aria-label="Schließen">×</button>
         <button class="more" aria-label="Mehr">•••</button>
       </div>
 
-      <div class="detail-license project-mark" id="licenseDetail" aria-label="RAZVAN ANDREI JUNCU"></div>
+      <div class="detail-license project-mark" id="licenseDetail" aria-label="School project license"></div>
 
       <div class="merchant">
         <div class="detail-logo"><img src="./stb.png" alt="STB"></div>
@@ -339,12 +597,89 @@ button,input{font:inherit}
         <div class="value" id="status">Ausstehend</div>
       </div>
 
-      <div class="info row-between">
-        <div class="label" style="margin:0">Karte</div>
-        <div class="value card-brand">▰ Visa ··0764</div>
+      <div class="info detail-multi-card">
+        <div class="detail-line">
+          <div class="detail-line-left">Karte</div>
+          <div class="detail-line-right">
+            <img class="orig-icon" src="./card-icon.png" alt="">
+            <span>Visa ··0764</span>
+          </div>
+        </div>
+
+        <div class="detail-line">
+          <div class="detail-line-left">Zahlung von</div>
+          <div class="detail-line-right">
+            <img class="orig-icon" src="./personal-icon.png" alt="">
+            <span>Persönlich · RON</span>
+          </div>
+        </div>
+
+        <div class="detail-line" id="statementTrigger" role="button" tabindex="0" aria-label="Kontoauszug öffnen">
+          <div class="detail-line-left">Kontoauszug</div>
+          <div class="detail-line-right">
+            <img class="orig-icon" src="./download-icon.png" alt="">
+            <span>Herunterladen</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="info detail-multi-card analytics-card">
+        <div class="detail-line">
+          <div class="detail-line-left">Aus Analysen ausschließen</div>
+          <div class="detail-line-right"><span class="switch" aria-hidden="true"></span></div>
+        </div>
+
+        <div class="detail-line">
+          <div class="detail-line-left">Kategorie</div>
+          <div class="detail-line-right">
+            <img class="orig-icon bus" src="./transport-icon.png" alt="">
+            <span>Transport</span>
+          </div>
+        </div>
+
+        <div class="detail-line">
+          <div class="detail-line-left">Ausgegeben bei STB Bucuresti</div>
+          <div class="detail-line-right neutral">98 lei</div>
+        </div>
+
+        <div class="detail-line">
+          <div class="detail-line-right group-link" style="grid-column:1 / -1;justify-content:space-between;width:100%">
+            <span>Alle 7 Transaktionen anzeigen</span>
+            <img class="orig-icon chev" src="./chevron-icon.png" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="info help-card">
+        <div class="help-title">Hilfe erhalten</div>
+        <img class="orig-icon chev" src="./chevron-icon.png" alt="">
       </div>
 
       <div class="detail-bottom"></div>
+    </div>
+  </div>
+</section>
+
+
+<section class="statement-page" id="statementPage">
+  <div class="statement-scroll">
+    <div class="statement-top">
+      <button class="statement-back" id="closeStatement" aria-label="Zurück">‹</button>
+      <div class="statement-watermark">RAZVAN ANDREI JUNCU</div>
+      <button class="statement-share" aria-label="Teilen">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 16V5"/>
+          <path d="m8 9 4-4 4 4"/>
+          <path d="M5 12v6a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="statement-wrap">
+      <div class="statement-paper">
+        <img src="./statement-paper.png" alt="Kontoauszug">
+        <div class="statement-date-overlay" id="statementDateOverlay">Generiert am 17.09.2026</div>
+      </div>
     </div>
   </div>
 </section>
@@ -367,6 +702,7 @@ button,input{font:inherit}
 
   const deLong = d =>
     new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(d);
+  const deShortDots = d => new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit",year:"numeric"}).format(d).replaceAll("/", ".");
 
   const setText = (id, value) => {
     const el = document.getElementById(id);
@@ -402,6 +738,17 @@ button,input{font:inherit}
   const detailPage = document.getElementById("detailPage");
   const latest = document.getElementById("latestTransaction");
 
+  const detailScroll = document.getElementById("detailScroll");
+  const stickyDetailBar = document.getElementById("stickyDetailBar");
+  const statementPage = document.getElementById("statementPage");
+  const statementDateOverlay = document.getElementById("statementDateOverlay");
+
+  if (detailScroll && stickyDetailBar) {
+    detailScroll.addEventListener("scroll", () => {
+      stickyDetailBar.classList.toggle("visible", detailScroll.scrollTop > 285);
+    }, {passive:true});
+  }
+
   const openDetail = () => {
     setText("detailDate", `${sameDay(payment,now) ? "Heute" : deLong(payment)}, ${hm(payment)}`);
 
@@ -412,17 +759,38 @@ button,input{font:inherit}
       `Ausstehend • Wird am ${deLong(reversal)} automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht`
     );
 
+    document.body.classList.add("detail-open");
     listPage.classList.add("hidden-left");
     detailPage.classList.remove("hidden-right");
     detailPage.querySelector(".scroll").scrollTop = 0;
+    stickyDetailBar?.classList.remove("visible");
   };
 
   if (latest) latest.addEventListener("click", openDetail);
 
-  document.getElementById("closeDetail")?.addEventListener("click", () => {
+  const closeDetailPage = () => {
+    document.body.classList.remove("detail-open");
     listPage.classList.remove("hidden-left");
     detailPage.classList.add("hidden-right");
+    stickyDetailBar?.classList.remove("visible");
+  };
+
+  const openStatement = () => {
+    statementDateOverlay.textContent = `Generiert am ${deShortDots(now)}`;
+    statementPage.classList.add("visible");
+  };
+
+  const closeStatement = () => {
+    statementPage.classList.remove("visible");
+  };
+
+  document.getElementById("closeDetail")?.addEventListener("click", closeDetailPage);
+  document.getElementById("stickyCloseDetail")?.addEventListener("click", closeDetailPage);
+  document.getElementById("statementTrigger")?.addEventListener("click", openStatement);
+  document.getElementById("statementTrigger")?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openStatement(); }
   });
+  document.getElementById("closeStatement")?.addEventListener("click", closeStatement);
 
   // Search filters existing rows rather than rebuilding the whole page.
   document.getElementById("search")?.addEventListener("input", e => {
