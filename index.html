@@ -1,0 +1,509 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Finance UI Demo" />
+<meta name="theme-color" content="#000000" />
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="apple-touch-icon" href="./icon-180.png" />
+<title>Finance UI Demo</title>
+
+<style>
+:root{
+  --bg:#000;
+  --card:#18181a;
+  --card2:#242426;
+  --search:#29292b;
+  --text:#f7f7f8;
+  --muted:#9b9b9f;
+  --muted2:#6f6f73;
+  --green:#19c7ae;
+  --blue:#6d9cff;
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{
+  margin:0;width:100%;height:100%;background:#000;color:var(--text);
+  font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overscroll-behavior:none;
+}
+body{position:fixed;inset:0;overflow:hidden}
+
+.app{
+  position:absolute;inset:0;margin:0 auto;width:100%;max-width:430px;background:#000;overflow:hidden;
+}
+
+.page{
+  position:absolute;inset:0;background:#000;transition:transform .23s ease,opacity .23s ease;
+}
+.page.hidden-right{transform:translateX(100%);opacity:.98;pointer-events:none}
+.page.hidden-left{transform:translateX(-18%);opacity:.3;pointer-events:none}
+
+.scroll{
+  position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+}
+.scroll::-webkit-scrollbar{display:none}
+
+.top-safe{height:calc(env(safe-area-inset-top) + 8px)}
+
+.project-mark{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;
+  color:rgba(255,255,255,.46);font-size:10px;line-height:12px;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.project-mark::before{
+  content:"";width:5px;height:5px;border-radius:50%;background:#777;
+}
+
+/* ---------- Transactions page ---------- */
+.tx-header{padding:0 18px 14px}
+.back{
+  width:42px;height:42px;margin-left:-8px;display:grid;place-items:center;border:0;background:transparent;color:#fff;
+  font-size:34px;font-weight:300;line-height:1;cursor:pointer;
+}
+.balance{
+  margin-top:10px;font-family:var(--display);font-size:39px;line-height:42px;font-weight:700;letter-spacing:-1.15px;
+}
+.balance .minor{font-size:.64em;letter-spacing:-.6px}
+.balance-label{
+  margin-top:5px;color:#77777c;font-size:16px;line-height:20px;font-weight:500;letter-spacing:-.25px;
+}
+.mark-wrap{margin-top:14px}
+
+.search-row{
+  padding:10px 18px 14px;display:flex;gap:14px;align-items:center;
+}
+.search-shell{
+  min-width:0;flex:1;height:50px;border-radius:25px;background:var(--search);
+  display:flex;align-items:center;padding:0 16px;gap:11px;
+}
+.search-shell svg{flex:none;opacity:.75}
+.search-input{
+  min-width:0;flex:1;border:0;outline:0;background:transparent;color:#fff;
+  font:500 16px/22px var(--font);letter-spacing:-.25px;
+}
+.search-input::placeholder{color:#9a9a9f;opacity:1}
+.filter-btn{
+  width:42px;height:42px;border:0;background:transparent;display:grid;place-items:center;color:#fff;
+}
+
+.section{padding:0 18px 10px}
+.section-heading{
+  display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 12px;
+}
+.section-title{
+  font-family:var(--display);font-size:23px;line-height:28px;font-weight:700;letter-spacing:-.55px;
+}
+.section-total{
+  color:#a1a1a6;font-size:17px;line-height:22px;font-weight:600;letter-spacing:-.35px;
+}
+.tx-card{
+  border-radius:18px;background:var(--card);overflow:hidden;padding:4px 0;
+}
+.tx{
+  width:100%;border:0;background:transparent;color:inherit;text-align:left;
+  padding:14px 16px;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;
+  cursor:pointer;
+}
+.tx:active{background:#222225}
+.tx-logo{
+  width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden;position:relative;
+  font-weight:800;color:#111;font-size:13px;letter-spacing:-.5px;
+}
+.tx-logo.metro{background:#fff}
+.tx-logo.metro span{font-size:19px;color:#f3c500;text-shadow:1px 1px 0 #1c44a9}
+.tx-logo.mega{border-radius:9px;background:#080808;box-shadow:inset 0 0 0 2px #ed1c24;color:#ed1c24;font-size:9px;line-height:9px;text-align:center}
+.tx-logo.person{background:#23bfd0;color:#fff;font-size:19px;border:3px solid rgba(255,255,255,.18)}
+.tx-logo.coffee{background:#7a563b;color:#fff;font-size:18px}
+.tx-logo.market{background:#284f2f;color:#fff;font-size:16px}
+.tx-main{min-width:0}
+.tx-name{
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  font-size:18px;line-height:22px;font-weight:650;letter-spacing:-.38px;
+}
+.tx-time{
+  margin-top:2px;color:#9d9da2;font-size:16px;line-height:20px;font-weight:400;letter-spacing:-.25px;
+}
+.tx-amount{
+  align-self:start;padding-top:2px;text-align:right;white-space:nowrap;
+  font-size:19px;line-height:24px;font-weight:500;letter-spacing:-.4px;
+}
+.tx-amount.positive{color:var(--green)}
+.tx-arrow-badge{
+  position:absolute;right:-3px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:white;color:#19191a;
+  display:grid;place-items:center;font-size:14px;font-weight:800;border:2px solid var(--card);
+}
+
+.bottom-spacer{height:calc(30px + env(safe-area-inset-bottom))}
+
+/* ---------- Detail page ---------- */
+.detail-scroll{background:#1a1a1c}
+.detail-hero{
+  min-height:470px;padding:calc(env(safe-area-inset-top) + 12px) 18px 28px;
+  background:
+    radial-gradient(circle at 50% 26%, rgba(255,255,255,.22), transparent 24%),
+    linear-gradient(#8c888a 0%,#5f5c5e 35%,#28282a 72%,#1a1a1c 100%);
+}
+.detail-top{
+  display:flex;align-items:center;justify-content:space-between;
+}
+.close-btn,.more-btn{
+  width:44px;height:44px;border:0;background:transparent;color:#fff;display:grid;place-items:center;cursor:pointer;
+}
+.close-btn{font-size:34px;font-weight:300}
+.more-btn{font-size:28px;letter-spacing:2px;padding-bottom:8px}
+.detail-mark{margin-top:2px;text-align:center}
+.detail-merchant{
+  margin-top:54px;display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.detail-logo{
+  width:82px;height:82px;border-radius:50%;background:#fff;display:grid;place-items:center;
+  color:#111;font-size:23px;font-weight:900;letter-spacing:-1.4px;
+}
+.detail-name{
+  margin-top:18px;font-size:20px;line-height:25px;font-weight:700;letter-spacing:-.42px;
+}
+.detail-amount{
+  margin-top:14px;font-family:var(--display);font-size:48px;line-height:52px;font-weight:700;letter-spacing:-1.25px;
+}
+.detail-date{
+  margin-top:12px;font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.3px;
+}
+.split-btn{
+  margin-top:28px;border:0;border-radius:24px;background:#363638;color:#fff;
+  padding:13px 20px;font:650 16px/20px var(--font);letter-spacing:-.25px;
+  display:inline-flex;align-items:center;gap:10px;
+}
+.detail-content{padding:0 18px 28px;background:#1a1a1c}
+.info-card{
+  background:#252527;border-radius:18px;padding:16px 18px;margin-bottom:14px;
+}
+.reward-card{
+  position:relative;padding:17px 18px 18px 74px;min-height:134px;
+}
+.reward-icon{
+  position:absolute;left:18px;top:17px;width:44px;height:44px;border-radius:50%;background:#444447;display:grid;place-items:center;
+}
+.reward-title{font-size:18px;line-height:22px;font-weight:700;letter-spacing:-.35px}
+.reward-copy{margin-top:2px;color:#9c9ca1;font-size:17px;line-height:21px;font-weight:400;letter-spacing:-.28px}
+.reward-button{
+  margin-top:16px;width:100%;height:47px;border:0;border-radius:24px;background:#49494c;color:#fff;
+  font:650 16px/20px var(--font);letter-spacing:-.25px;
+}
+.info-label{
+  color:#a8a8ad;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.28px;margin-bottom:9px;
+}
+.info-value{
+  font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.3px;
+}
+.card-row{
+  display:flex;justify-content:space-between;gap:20px;align-items:center;
+}
+.card-brand{color:#78a0ff;font-weight:600}
+.detail-bottom{height:calc(22px + env(safe-area-inset-bottom))}
+
+@media (min-width:431px){
+  body{background:#111}
+  .app{box-shadow:0 0 30px rgba(0,0,0,.5)}
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <section class="page" id="transactionsPage">
+    <div class="scroll" id="txScroll">
+      <div class="top-safe"></div>
+
+      <div class="tx-header">
+        <button class="back" aria-label="Back">‹</button>
+
+        <div class="balance">
+          2.327<span class="minor">,26 lei</span>
+        </div>
+        <div class="balance-label">Aktueller Kontostand</div>
+
+        <div class="mark-wrap">
+          <span class="project-mark" id="projectMarkList">SCHOOL PROJECT • UI SIMULATION • NOT A BANK RECORD</span>
+        </div>
+      </div>
+
+      <div class="search-row">
+        <label class="search-shell">
+          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="10.5" cy="10.5" r="6.7" stroke="currentColor" stroke-width="2.1"/>
+            <path d="M15.7 15.7 21 21" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
+          </svg>
+          <input class="search-input" id="searchInput" type="search" inputmode="search" placeholder="Suche" autocomplete="off" />
+        </label>
+
+        <button class="filter-btn" aria-label="Filter">
+          <svg width="27" height="27" viewBox="0 0 28 28" fill="none">
+            <path d="M6 8h16M9 14h10M12 20h4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div id="transactionsContainer"></div>
+      <div class="bottom-spacer"></div>
+    </div>
+  </section>
+
+  <section class="page hidden-right" id="detailPage">
+    <div class="scroll detail-scroll">
+      <div class="detail-hero">
+        <div class="detail-top">
+          <button class="close-btn" id="closeDetail" aria-label="Close">×</button>
+          <button class="more-btn" aria-label="More">•••</button>
+        </div>
+
+        <div class="detail-mark">
+          <span class="project-mark" id="projectMarkDetail">SCHOOL PROJECT • UI SIMULATION • NOT A BANK RECORD</span>
+        </div>
+
+        <div class="detail-merchant">
+          <div class="detail-logo">STB</div>
+          <div class="detail-name">STB Bucuresti</div>
+          <div class="detail-amount">-3 lei</div>
+          <div class="detail-date" id="detailDate">Heute, 18:33</div>
+
+          <button class="split-btn">
+            <span style="font-size:20px">Y</span>
+            Rechnung aufteilen
+          </button>
+        </div>
+      </div>
+
+      <div class="detail-content">
+        <div class="info-card reward-card">
+          <div class="reward-icon">✦</div>
+          <div class="reward-title">Belohnungen verpasst</div>
+          <div class="reward-copy">Verdiene Belohnungen für deine Ausgaben</div>
+          <button class="reward-button">RevPoints kostenlos beitreten</button>
+        </div>
+
+        <div class="info-card">
+          <div class="info-label">Standort</div>
+          <div class="info-value">Bucuresti, Rumänien</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-label">Status</div>
+          <div class="info-value" id="statusText">
+            Ausstehend • Wird automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht
+          </div>
+        </div>
+
+        <div class="info-card card-row">
+          <div class="info-label" style="margin:0">Karte</div>
+          <div class="info-value card-brand">▰ Visa ··0764</div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-label">Transaktion</div>
+          <div class="info-value">Kartenzahlung • STB Bucuresti</div>
+        </div>
+
+        <div class="detail-bottom"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(() => {
+  // ==============================
+  // PROJECT SETTINGS
+  // ==============================
+  const PROJECT_LICENSE_TEXT = "SCHOOL PROJECT • UI SIMULATION • NOT A BANK RECORD";
+  const PAYMENT_AGE_MINUTES = 12;
+  // ==============================
+
+  const now = new Date();
+  const latestPaymentTime = new Date(now.getTime() - PAYMENT_AGE_MINUTES * 60 * 1000);
+
+  const projectMarkList = document.getElementById("projectMarkList");
+  const projectMarkDetail = document.getElementById("projectMarkDetail");
+  projectMarkList.textContent = PROJECT_LICENSE_TEXT;
+  projectMarkDetail.textContent = PROJECT_LICENSE_TEXT;
+
+  const pad = n => String(n).padStart(2, "0");
+  const hhmm = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+
+  const sameLocalDay = (a,b) =>
+    a.getFullYear() === b.getFullYear() &&
+    a.getMonth() === b.getMonth() &&
+    a.getDate() === b.getDate();
+
+  const deDate = d => new Intl.DateTimeFormat("de-DE", {
+    day:"numeric", month:"long"
+  }).format(d);
+
+  const amountText = value => {
+    const abs = Math.abs(value);
+    const formatted = abs.toLocaleString("de-DE", {
+      minimumFractionDigits: Number.isInteger(abs) ? 0 : 2,
+      maximumFractionDigits: 2
+    });
+    return `${value >= 0 ? "+" : "-"}${formatted} lei`;
+  };
+
+  // Keep today's other transactions earlier than the latest payment,
+  // while scattering them through the same day.
+  const dayStart = new Date(latestPaymentTime);
+  dayStart.setHours(7, 35, 0, 0);
+
+  const totalSpan = Math.max(90, (latestPaymentTime - dayStart) / 60000);
+  const scatterFractions = [0, .61, .66, .70, .84];
+
+  const todayTimes = scatterFractions.map(frac => {
+    const d = new Date(latestPaymentTime.getTime() - totalSpan * frac * 60000);
+    if (d < dayStart) return new Date(dayStart);
+    return d;
+  });
+
+  const yesterdayBase = new Date(now);
+  yesterdayBase.setDate(yesterdayBase.getDate() - 1);
+  yesterdayBase.setHours(19, 7, 0, 0);
+
+  const twoDaysAgo = new Date(now);
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+  twoDaysAgo.setHours(18, 26, 0, 0);
+
+  const groups = [
+    {
+      label: sameLocalDay(latestPaymentTime, now) ? "Heute" : "Gestern",
+      transactions: [
+        {id:"stb-latest", name:"STB Bucuresti", amount:-3, time:todayTimes[0], icon:"stb", clickable:true},
+        {id:"metro-today", name:"Metrorex", amount:-5, time:todayTimes[1], icon:"metro"},
+        {id:"stb-big", name:"STB Bucuresti", amount:-80, time:todayTimes[2], icon:"stb"},
+        {id:"mega-today", name:"Mega Image", amount:-7.24, time:todayTimes[3], icon:"mega"},
+        {id:"radu", name:"Radu Teodor Juncu", amount:2000, time:todayTimes[4], icon:"person"}
+      ]
+    },
+    {
+      label:"Gestern",
+      transactions:[
+        {name:"Mega Image", amount:-4.79, time:yesterdayBase, icon:"mega"},
+        {name:"Metrorex", amount:-5, time:new Date(yesterdayBase.getTime()-85*60000), icon:"metro"},
+        {name:"5 to go", amount:-13.40, time:new Date(yesterdayBase.getTime()-215*60000), icon:"coffee"},
+        {name:"Carrefour Market", amount:-19.36, time:new Date(yesterdayBase.getTime()-360*60000), icon:"market"},
+        {name:"Radu Teodor Juncu", amount:150, time:new Date(yesterdayBase.getTime()-510*60000), icon:"person"}
+      ]
+    },
+    {
+      label:deDate(twoDaysAgo),
+      transactions:[
+        {name:"Metrorex", amount:-5, time:twoDaysAgo, icon:"metro"},
+        {name:"Mega Image", amount:-12.38, time:new Date(twoDaysAgo.getTime()-120*60000), icon:"mega"},
+        {name:"STB Bucuresti", amount:-3, time:new Date(twoDaysAgo.getTime()-265*60000), icon:"stb"}
+      ]
+    }
+  ];
+
+  const txContainer = document.getElementById("transactionsContainer");
+
+  function logoMarkup(icon){
+    if(icon === "stb") return `<div class="tx-logo">STB</div>`;
+    if(icon === "metro") return `<div class="tx-logo metro"><span>M</span></div>`;
+    if(icon === "mega") return `<div class="tx-logo mega">MEGA<br>IMAGE</div>`;
+    if(icon === "person") return `<div class="tx-logo person">RT<span class="tx-arrow-badge">←</span></div>`;
+    if(icon === "coffee") return `<div class="tx-logo coffee">5</div>`;
+    return `<div class="tx-logo market">C</div>`;
+  }
+
+  function groupTotal(txs){
+    return txs.reduce((sum,t)=>sum+t.amount,0);
+  }
+
+  function render(filter=""){
+    const q = filter.trim().toLocaleLowerCase("de-DE");
+    txContainer.innerHTML = "";
+
+    groups.forEach(group => {
+      const visible = group.transactions.filter(t =>
+        !q || t.name.toLocaleLowerCase("de-DE").includes(q)
+      );
+      if(!visible.length) return;
+
+      const section = document.createElement("section");
+      section.className = "section";
+
+      const heading = document.createElement("div");
+      heading.className = "section-heading";
+      heading.innerHTML = `
+        <div class="section-title">${group.label}</div>
+        <div class="section-total">${amountText(groupTotal(group.transactions))}</div>
+      `;
+      section.appendChild(heading);
+
+      const card = document.createElement("div");
+      card.className = "tx-card";
+
+      visible.forEach(t => {
+        const btn = document.createElement("button");
+        btn.className = "tx";
+        btn.type = "button";
+        btn.innerHTML = `
+          ${logoMarkup(t.icon)}
+          <div class="tx-main">
+            <div class="tx-name">${t.name}</div>
+            <div class="tx-time">${hhmm(t.time)}</div>
+          </div>
+          <div class="tx-amount ${t.amount>0 ? "positive" : ""}">${amountText(t.amount)}</div>
+        `;
+        if(t.clickable){
+          btn.addEventListener("click", openDetail);
+        }
+        card.appendChild(btn);
+      });
+
+      section.appendChild(card);
+      txContainer.appendChild(section);
+    });
+  }
+
+  const transactionsPage = document.getElementById("transactionsPage");
+  const detailPage = document.getElementById("detailPage");
+  const detailDate = document.getElementById("detailDate");
+  const statusText = document.getElementById("statusText");
+
+  function openDetail(){
+    const label = sameLocalDay(latestPaymentTime, now)
+      ? `Heute, ${hhmm(latestPaymentTime)}`
+      : `${deDate(latestPaymentTime)}, ${hhmm(latestPaymentTime)}`;
+
+    detailDate.textContent = label;
+
+    const refundDate = new Date(latestPaymentTime);
+    refundDate.setDate(refundDate.getDate()+9);
+
+    statusText.textContent =
+      `Ausstehend • Wird am ${new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(refundDate)} automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht`;
+
+    transactionsPage.classList.add("hidden-left");
+    detailPage.classList.remove("hidden-right");
+    detailPage.querySelector(".scroll").scrollTop = 0;
+  }
+
+  function closeDetail(){
+    transactionsPage.classList.remove("hidden-left");
+    detailPage.classList.add("hidden-right");
+  }
+
+  document.getElementById("closeDetail").addEventListener("click", closeDetail);
+  document.getElementById("searchInput").addEventListener("input", e => render(e.target.value));
+
+  render();
+})();
+</script>
+</body>
+</html>
