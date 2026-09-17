@@ -13,488 +13,411 @@
 
 <style>
 :root{
-  --bg:#000;
+  --black:#000;
   --card:#18181a;
-  --card2:#242426;
+  --card-hi:#202022;
   --search:#29292b;
+  --detail:#1b1b1d;
+  --detail-card:#242426;
   --text:#f7f7f8;
-  --muted:#9b9b9f;
-  --muted2:#6f6f73;
-  --green:#19c7ae;
-  --blue:#6d9cff;
+  --muted:#9a9a9f;
+  --muted-dim:#707075;
+  --green:#1dc9b0;
+  --blue:#75a1ff;
   --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",Arial,sans-serif;
   --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Arial,sans-serif;
 }
-
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{
   margin:0;width:100%;height:100%;background:#000;color:var(--text);
   font-family:var(--font);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  overscroll-behavior:none;
+  font-synthesis:none;overscroll-behavior:none;
 }
 body{position:fixed;inset:0;overflow:hidden}
-
-.app{
-  position:absolute;inset:0;margin:0 auto;width:100%;max-width:430px;background:#000;overflow:hidden;
-}
-
-.page{
-  position:absolute;inset:0;background:#000;transition:transform .23s ease,opacity .23s ease;
-}
-.page.hidden-right{transform:translateX(100%);opacity:.98;pointer-events:none}
-.page.hidden-left{transform:translateX(-18%);opacity:.3;pointer-events:none}
-
-.scroll{
-  position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
-}
+button,input{font:inherit}
+.app{position:absolute;inset:0;margin:auto;width:100%;max-width:430px;background:#000;overflow:hidden}
+.page{position:absolute;inset:0;background:#000;transition:transform .22s cubic-bezier(.22,.8,.26,1),opacity .2s}
+.page.hidden-right{transform:translateX(100%);pointer-events:none}
+.page.hidden-left{transform:translateX(-15%);opacity:.38;pointer-events:none}
+.scroll{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .scroll::-webkit-scrollbar{display:none}
-
-.top-safe{height:calc(env(safe-area-inset-top) + 8px)}
+.safe-top{height:calc(env(safe-area-inset-top) + 2px)}
 
 .project-mark{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:5px 9px;border:1px solid rgba(255,255,255,.12);border-radius:999px;
-  color:rgba(255,255,255,.46);font-size:10px;line-height:12px;font-weight:700;letter-spacing:.08em;
-  text-transform:uppercase;
-}
-.project-mark::before{
-  content:"";width:5px;height:5px;border-radius:50%;background:#777;
+  display:inline-flex;align-items:center;gap:5px;margin-top:10px;
+  color:rgba(255,255,255,.42);font-size:8.5px;line-height:11px;font-weight:700;
+  letter-spacing:.075em;text-transform:uppercase;white-space:nowrap
 }
 
-/* ---------- Transactions page ---------- */
-.tx-header{padding:0 18px 14px}
-.back{
-  width:42px;height:42px;margin-left:-8px;display:grid;place-items:center;border:0;background:transparent;color:#fff;
-  font-size:34px;font-weight:300;line-height:1;cursor:pointer;
+/* TRANSACTION LIST */
+.list-head{padding:0 17px}
+.back-btn{
+  width:42px;height:42px;margin-left:-10px;border:0;background:none;color:#fff;
+  display:grid;place-items:center;font-size:38px;line-height:1;font-weight:200;padding:0;cursor:pointer
 }
 .balance{
-  margin-top:10px;font-family:var(--display);font-size:39px;line-height:42px;font-weight:700;letter-spacing:-1.15px;
+  margin-top:9px;font-family:var(--display);font-size:38px;line-height:41px;font-weight:730;
+  letter-spacing:-1.35px;font-variant-numeric:tabular-nums
 }
-.balance .minor{font-size:.64em;letter-spacing:-.6px}
-.balance-label{
-  margin-top:5px;color:#77777c;font-size:16px;line-height:20px;font-weight:500;letter-spacing:-.25px;
-}
-.mark-wrap{margin-top:14px}
+.balance .minor{font-size:25px;letter-spacing:-.75px}
+.balance-label{margin-top:5px;color:#737378;font-size:15px;line-height:19px;font-weight:500;letter-spacing:-.28px}
 
-.search-row{
-  padding:10px 18px 14px;display:flex;gap:14px;align-items:center;
-}
+.search-row{display:flex;align-items:center;gap:14px;padding:20px 17px 20px}
 .search-shell{
-  min-width:0;flex:1;height:50px;border-radius:25px;background:var(--search);
-  display:flex;align-items:center;padding:0 16px;gap:11px;
+  height:44px;min-width:0;flex:1;border-radius:23px;background:var(--search);
+  display:flex;align-items:center;gap:10px;padding:0 14px;color:#aaaab0
 }
-.search-shell svg{flex:none;opacity:.75}
+.search-shell svg{flex:none}
 .search-input{
   min-width:0;flex:1;border:0;outline:0;background:transparent;color:#fff;
-  font:500 16px/22px var(--font);letter-spacing:-.25px;
+  font-size:16px;line-height:21px;font-weight:500;letter-spacing:-.28px
 }
-.search-input::placeholder{color:#9a9a9f;opacity:1}
-.filter-btn{
-  width:42px;height:42px;border:0;background:transparent;display:grid;place-items:center;color:#fff;
-}
+.search-input::placeholder{color:#a0a0a5;opacity:1}
+.filter{width:40px;height:40px;border:0;background:none;color:#fff;padding:0;display:grid;place-items:center}
 
-.section{padding:0 18px 10px}
-.section-heading{
-  display:flex;justify-content:space-between;align-items:flex-end;margin:18px 0 12px;
-}
-.section-title{
-  font-family:var(--display);font-size:23px;line-height:28px;font-weight:700;letter-spacing:-.55px;
-}
+.section{padding:0 17px 4px}
+.section-heading{display:flex;justify-content:space-between;align-items:baseline;margin:13px 0 11px}
+.section-title{font-family:var(--display);font-size:22px;line-height:27px;font-weight:720;letter-spacing:-.56px}
 .section-total{
-  color:#a1a1a6;font-size:17px;line-height:22px;font-weight:600;letter-spacing:-.35px;
+  color:#a0a0a5;font-size:17px;line-height:21px;font-weight:650;letter-spacing:-.36px;
+  font-variant-numeric:tabular-nums
 }
-.tx-card{
-  border-radius:18px;background:var(--card);overflow:hidden;padding:4px 0;
-}
+.tx-card{background:var(--card);border-radius:17px;overflow:hidden;padding:1px 0}
 .tx{
-  width:100%;border:0;background:transparent;color:inherit;text-align:left;
-  padding:14px 16px;display:grid;grid-template-columns:48px 1fr auto;gap:12px;align-items:center;
-  cursor:pointer;
+  width:100%;min-height:72px;border:0;background:transparent;color:inherit;text-align:left;
+  display:grid;grid-template-columns:44px minmax(0,1fr) auto;gap:12px;align-items:center;
+  padding:12px 15px;cursor:pointer
 }
-.tx:active{background:#222225}
+.tx:active{background:var(--card-hi)}
 .tx-logo{
-  width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden;position:relative;
-  font-weight:800;color:#111;font-size:13px;letter-spacing:-.5px;
+  width:44px;height:44px;display:grid;place-items:center;position:relative;overflow:visible;flex:none
 }
-.tx-logo.metro{background:#fff}
-.tx-logo.metro span{font-size:19px;color:#f3c500;text-shadow:1px 1px 0 #1c44a9}
-.tx-logo.mega{border-radius:9px;background:#080808;box-shadow:inset 0 0 0 2px #ed1c24;color:#ed1c24;font-size:9px;line-height:9px;text-align:center}
-.tx-logo.person{background:#23bfd0;color:#fff;font-size:19px;border:3px solid rgba(255,255,255,.18)}
-.tx-logo.coffee{background:#7a563b;color:#fff;font-size:18px}
-.tx-logo.market{background:#284f2f;color:#fff;font-size:16px}
-.tx-main{min-width:0}
+.tx-logo img{width:44px;height:44px;display:block;object-fit:contain}
+.person-badge{
+  position:absolute;right:-4px;bottom:-3px;width:21px;height:21px;border:2px solid var(--card);
+  border-radius:50%;background:#f7f7f8;color:#171719;display:grid;place-items:center;
+  font-size:14px;font-weight:800;line-height:1
+}
 .tx-name{
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-  font-size:18px;line-height:22px;font-weight:650;letter-spacing:-.38px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font-family:var(--display);font-size:18px;line-height:22px;font-weight:690;letter-spacing:-.38px
 }
 .tx-time{
-  margin-top:2px;color:#9d9da2;font-size:16px;line-height:20px;font-weight:400;letter-spacing:-.25px;
+  margin-top:2px;color:#9a9a9f;font-size:15px;line-height:19px;font-weight:430;
+  letter-spacing:-.25px;font-variant-numeric:tabular-nums
 }
 .tx-amount{
-  align-self:start;padding-top:2px;text-align:right;white-space:nowrap;
-  font-size:19px;line-height:24px;font-weight:500;letter-spacing:-.4px;
+  align-self:start;padding-top:4px;white-space:nowrap;text-align:right;
+  font-size:17px;line-height:21px;font-weight:520;letter-spacing:-.33px;
+  font-variant-numeric:tabular-nums
 }
 .tx-amount.positive{color:var(--green)}
-.tx-arrow-badge{
-  position:absolute;right:-3px;bottom:-2px;width:20px;height:20px;border-radius:50%;background:white;color:#19191a;
-  display:grid;place-items:center;font-size:14px;font-weight:800;border:2px solid var(--card);
-}
+.list-bottom{height:calc(26px + env(safe-area-inset-bottom))}
 
-.bottom-spacer{height:calc(30px + env(safe-area-inset-bottom))}
-
-/* ---------- Detail page ---------- */
-.detail-scroll{background:#1a1a1c}
-.detail-hero{
-  min-height:470px;padding:calc(env(safe-area-inset-top) + 12px) 18px 28px;
+/* DETAIL */
+.detail-scroll{background:var(--detail)}
+.hero{
+  min-height:404px;padding:calc(env(safe-area-inset-top) + 6px) 17px 23px;
   background:
-    radial-gradient(circle at 50% 26%, rgba(255,255,255,.22), transparent 24%),
-    linear-gradient(#8c888a 0%,#5f5c5e 35%,#28282a 72%,#1a1a1c 100%);
+    radial-gradient(circle at 50% 29%,rgba(255,255,255,.20),transparent 23%),
+    linear-gradient(180deg,#898587 0%,#6b6769 22%,#454345 47%,#262628 72%,#1b1b1d 100%)
 }
-.detail-top{
-  display:flex;align-items:center;justify-content:space-between;
-}
-.close-btn,.more-btn{
-  width:44px;height:44px;border:0;background:transparent;color:#fff;display:grid;place-items:center;cursor:pointer;
-}
-.close-btn{font-size:34px;font-weight:300}
-.more-btn{font-size:28px;letter-spacing:2px;padding-bottom:8px}
-.detail-mark{margin-top:2px;text-align:center}
-.detail-merchant{
-  margin-top:54px;display:flex;flex-direction:column;align-items:center;text-align:center;
-}
-.detail-logo{
-  width:82px;height:82px;border-radius:50%;background:#fff;display:grid;place-items:center;
-  color:#111;font-size:23px;font-weight:900;letter-spacing:-1.4px;
-}
-.detail-name{
-  margin-top:18px;font-size:20px;line-height:25px;font-weight:700;letter-spacing:-.42px;
-}
+.detail-top{display:flex;justify-content:space-between;align-items:center}
+.close,.more{border:0;background:none;color:#fff;width:42px;height:42px;display:grid;place-items:center;padding:0;cursor:pointer}
+.close{font-size:38px;font-weight:200;line-height:1}
+.more{font-size:27px;letter-spacing:2px;padding-bottom:7px}
+.detail-license{position:absolute;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top) + 18px)}
+.merchant{margin-top:48px;text-align:center;display:flex;flex-direction:column;align-items:center}
+.detail-logo{width:78px;height:78px;border-radius:50%;overflow:hidden;background:#fff}
+.detail-logo img{display:block;width:100%;height:100%;object-fit:cover}
+.detail-name{margin-top:18px;font-size:20px;line-height:24px;font-weight:680;letter-spacing:-.42px}
 .detail-amount{
-  margin-top:14px;font-family:var(--display);font-size:48px;line-height:52px;font-weight:700;letter-spacing:-1.25px;
+  margin-top:10px;font-family:var(--display);font-size:46px;line-height:50px;font-weight:700;
+  letter-spacing:-1.45px;font-variant-numeric:tabular-nums
 }
-.detail-date{
-  margin-top:12px;font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.3px;
+.detail-date{margin-top:11px;font-size:17px;line-height:22px;font-weight:430;letter-spacing:-.32px}
+.split{
+  margin-top:26px;border:0;border-radius:24px;background:#363638;color:#fff;height:46px;padding:0 19px;
+  display:inline-flex;align-items:center;gap:10px;font-size:16px;line-height:20px;font-weight:650;letter-spacing:-.28px
 }
-.split-btn{
-  margin-top:28px;border:0;border-radius:24px;background:#363638;color:#fff;
-  padding:13px 20px;font:650 16px/20px var(--font);letter-spacing:-.25px;
-  display:inline-flex;align-items:center;gap:10px;
+.detail-body{padding:0 17px 25px;background:var(--detail)}
+.info{
+  margin-bottom:14px;padding:15px 17px;background:var(--detail-card);border-radius:16px
 }
-.detail-content{padding:0 18px 28px;background:#1a1a1c}
-.info-card{
-  background:#252527;border-radius:18px;padding:16px 18px;margin-bottom:14px;
-}
-.reward-card{
-  position:relative;padding:17px 18px 18px 74px;min-height:134px;
-}
+.reward{position:relative;min-height:142px;padding:17px 17px 17px 75px}
 .reward-icon{
-  position:absolute;left:18px;top:17px;width:44px;height:44px;border-radius:50%;background:#444447;display:grid;place-items:center;
+  position:absolute;left:17px;top:17px;width:44px;height:44px;border-radius:50%;background:#444447;
+  display:grid;place-items:center;font-size:20px
 }
-.reward-title{font-size:18px;line-height:22px;font-weight:700;letter-spacing:-.35px}
-.reward-copy{margin-top:2px;color:#9c9ca1;font-size:17px;line-height:21px;font-weight:400;letter-spacing:-.28px}
+.reward-close{position:absolute;right:16px;top:12px;color:#77777b;font-size:23px;font-weight:700}
+.reward-title{font-size:18px;line-height:22px;font-weight:700;letter-spacing:-.36px}
+.reward-copy{margin-top:2px;color:#9b9ba0;font-size:17px;line-height:21px;font-weight:430;letter-spacing:-.30px}
 .reward-button{
-  margin-top:16px;width:100%;height:47px;border:0;border-radius:24px;background:#49494c;color:#fff;
-  font:650 16px/20px var(--font);letter-spacing:-.25px;
+  width:calc(100% + 58px);margin-left:-58px;margin-top:16px;height:46px;border:0;border-radius:24px;
+  background:#49494c;color:#fff;font-size:16px;line-height:20px;font-weight:650;letter-spacing:-.28px
 }
-.info-label{
-  color:#a8a8ad;font-size:16px;line-height:20px;font-weight:600;letter-spacing:-.28px;margin-bottom:9px;
-}
-.info-value{
-  font-size:17px;line-height:22px;font-weight:400;letter-spacing:-.3px;
-}
-.card-row{
-  display:flex;justify-content:space-between;gap:20px;align-items:center;
-}
-.card-brand{color:#78a0ff;font-weight:600}
-.detail-bottom{height:calc(22px + env(safe-area-inset-bottom))}
+.label{color:#a6a6ab;font-size:16px;line-height:20px;font-weight:620;letter-spacing:-.28px;margin-bottom:8px}
+.value{font-size:17px;line-height:22px;font-weight:430;letter-spacing:-.30px}
+.row-between{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.card-brand{color:var(--blue);font-weight:600}
+.detail-bottom{height:calc(20px + env(safe-area-inset-bottom))}
 
-@media (min-width:431px){
-  body{background:#111}
-  .app{box-shadow:0 0 30px rgba(0,0,0,.5)}
-}
+@media(min-width:431px){body{background:#111}.app{box-shadow:0 0 30px rgba(0,0,0,.55)}}
 </style>
 </head>
-
 <body>
 <div class="app">
 
-  <section class="page" id="transactionsPage">
-    <div class="scroll" id="txScroll">
-      <div class="top-safe"></div>
+<section class="page" id="listPage">
+  <div class="scroll">
+    <div class="safe-top"></div>
 
-      <div class="tx-header">
-        <button class="back" aria-label="Back">‹</button>
+    <header class="list-head">
+      <button class="back-btn" aria-label="Zurück">‹</button>
+      <div class="balance">2.327<span class="minor">,26 lei</span></div>
+      <div class="balance-label">Aktueller Kontostand</div>
+      <div class="project-mark" id="licenseList">SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION</div>
+    </header>
 
-        <div class="balance">
-          2.327<span class="minor">,26 lei</span>
-        </div>
-        <div class="balance-label">Aktueller Kontostand</div>
-
-
-
-      <div class="search-row">
-        <label class="search-shell">
-          <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="10.5" cy="10.5" r="6.7" stroke="currentColor" stroke-width="2.1"/>
-            <path d="M15.7 15.7 21 21" stroke="currentColor" stroke-width="2.1" stroke-linecap="round"/>
-          </svg>
-          <input class="search-input" id="searchInput" type="search" inputmode="search" placeholder="Suche" autocomplete="off" />
-        </label>
-
-        <button class="filter-btn" aria-label="Filter">
-          <svg width="27" height="27" viewBox="0 0 28 28" fill="none">
-            <path d="M6 8h16M9 14h10M12 20h4" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-
-      <div id="transactionsContainer"></div>
-      <div class="bottom-spacer"></div>
+    <div class="search-row">
+      <label class="search-shell">
+        <svg width="23" height="23" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="10.4" cy="10.4" r="6.5" stroke="currentColor" stroke-width="2.15"/>
+          <path d="m15.5 15.5 5.2 5.2" stroke="currentColor" stroke-width="2.15" stroke-linecap="round"/>
+        </svg>
+        <input id="search" class="search-input" type="search" placeholder="Suche" autocomplete="off">
+      </label>
+      <button class="filter" aria-label="Filter">
+        <svg width="27" height="27" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+          <path d="M5 8h18M8 14h12M11 20h6" stroke="currentColor" stroke-width="2.9" stroke-linecap="round"/>
+        </svg>
+      </button>
     </div>
-  </section>
 
-  <section class="page hidden-right" id="detailPage">
-    <div class="scroll detail-scroll">
-      <div class="detail-hero">
-        <div class="detail-top">
-          <button class="close-btn" id="closeDetail" aria-label="Close">×</button>
-          <button class="more-btn" aria-label="More">•••</button>
-        </div>
+    <main id="groups"></main>
+    <div class="list-bottom"></div>
+  </div>
+</section>
 
-        <div class="detail-merchant">
-          <div class="detail-logo">STB</div>
-          <div class="detail-name">STB Bucuresti</div>
-          <div class="detail-amount">-3 lei</div>
-          <div class="detail-date" id="detailDate">Heute, 18:33</div>
-
-          <button class="split-btn">
-            <span style="font-size:20px">Y</span>
-            Rechnung aufteilen
-          </button>
-        </div>
+<section class="page hidden-right" id="detailPage">
+  <div class="scroll detail-scroll">
+    <div class="hero">
+      <div class="detail-top">
+        <button class="close" id="closeDetail" aria-label="Schließen">×</button>
+        <button class="more" aria-label="Mehr">•••</button>
       </div>
 
-      <div class="detail-content">
-        <div class="info-card reward-card">
-          <div class="reward-icon">✦</div>
-          <div class="reward-title">Belohnungen verpasst</div>
-          <div class="reward-copy">Verdiene Belohnungen für deine Ausgaben</div>
-          <button class="reward-button">RevPoints kostenlos beitreten</button>
-        </div>
+      <div class="detail-license project-mark" id="licenseDetail">SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION</div>
 
-        <div class="info-card">
-          <div class="info-label">Standort</div>
-          <div class="info-value">Bucuresti, Rumänien</div>
-        </div>
-
-        <div class="info-card">
-          <div class="info-label">Status</div>
-          <div class="info-value" id="statusText">
-            Ausstehend • Wird automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht
-          </div>
-        </div>
-
-        <div class="info-card card-row">
-          <div class="info-label" style="margin:0">Karte</div>
-          <div class="info-value card-brand">▰ Visa ··0764</div>
-        </div>
-
-        <div class="info-card">
-          <div class="info-label">Transaktion</div>
-          <div class="info-value">Kartenzahlung • STB Bucuresti</div>
-        </div>
-
-        <div class="detail-bottom"></div>
+      <div class="merchant">
+        <div class="detail-logo"><img src="./stb.png" alt="STB"></div>
+        <div class="detail-name">STB Bucuresti</div>
+        <div class="detail-amount">-3 lei</div>
+        <div class="detail-date" id="detailDate">Heute, 18:33</div>
+        <button class="split"><span style="font-size:20px">Y</span> Rechnung aufteilen</button>
       </div>
     </div>
-  </section>
+
+    <div class="detail-body">
+      <div class="info reward">
+        <div class="reward-icon">✦</div>
+        <div class="reward-close">×</div>
+        <div class="reward-title">Belohnungen verpasst</div>
+        <div class="reward-copy">Verdiene Belohnungen für deine Ausgaben</div>
+        <button class="reward-button">RevPoints kostenlos beitreten</button>
+      </div>
+
+      <div class="info">
+        <div class="label">Standort</div>
+        <div class="value">Bucuresti, Rumänien</div>
+      </div>
+
+      <div class="info">
+        <div class="label">Status</div>
+        <div class="value" id="status">Ausstehend</div>
+      </div>
+
+      <div class="info row-between">
+        <div class="label" style="margin:0">Karte</div>
+        <div class="value card-brand">▰ Visa ··0764</div>
+      </div>
+
+      <div class="detail-bottom"></div>
+    </div>
+  </div>
+</section>
 
 </div>
 
 <script>
 (() => {
-  // ==============================
+  // ==========================
   // PROJECT SETTINGS
-  // ==============================
+  // ==========================
+  const PROJECT_LICENSE_TEXT = "SCHOOL PROJECT • LICENSE: YOUR-ID • UI SIMULATION";
   const PAYMENT_AGE_MINUTES = 12;
-  // ==============================
+  // ==========================
 
   const now = new Date();
-  const latestPaymentTime = new Date(now.getTime() - PAYMENT_AGE_MINUTES * 60 * 1000);
+  const payment = new Date(now.getTime() - PAYMENT_AGE_MINUTES * 60000);
 
-  const projectMarkList = document.getElementById("projectMarkList");
-  const projectMarkDetail = document.getElementById("projectMarkDetail");
-  projectMarkList.textContent = PROJECT_LICENSE_TEXT;
-  projectMarkDetail.textContent = PROJECT_LICENSE_TEXT;
+  document.getElementById("licenseList").textContent = PROJECT_LICENSE_TEXT;
+  document.getElementById("licenseDetail").textContent = PROJECT_LICENSE_TEXT;
 
-  const pad = n => String(n).padStart(2, "0");
-  const hhmm = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const pad = n => String(n).padStart(2,"0");
+  const hm = d => `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  const sameDay = (a,b) =>
+    a.getFullYear()===b.getFullYear() &&
+    a.getMonth()===b.getMonth() &&
+    a.getDate()===b.getDate();
 
-  const sameLocalDay = (a,b) =>
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate();
+  const deLong = d => new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(d);
+  const deShort = d => new Intl.DateTimeFormat("de-DE",{day:"2-digit",month:"2-digit"}).format(d);
 
-  const deDate = d => new Intl.DateTimeFormat("de-DE", {
-    day:"numeric", month:"long"
-  }).format(d);
-
-  const amountText = value => {
-    const abs = Math.abs(value);
-    const formatted = abs.toLocaleString("de-DE", {
-      minimumFractionDigits: Number.isInteger(abs) ? 0 : 2,
-      maximumFractionDigits: 2
+  const money = n => {
+    const a=Math.abs(n);
+    const formatted=a.toLocaleString("de-DE",{
+      minimumFractionDigits:Number.isInteger(a)?0:2,
+      maximumFractionDigits:2
     });
-    return `${value >= 0 ? "+" : "-"}${formatted} lei`;
+    return `${n>=0?"+":"-"}${formatted} lei`;
   };
 
-  // Keep today's other transactions earlier than the latest payment,
-  // while scattering them through the same day.
-  const dayStart = new Date(latestPaymentTime);
-  dayStart.setHours(7, 35, 0, 0);
+  // Today's four other entries are always on the payment's calendar day
+  // and always earlier than the current -12 minute STB payment.
+  const midnight = new Date(payment);
+  midnight.setHours(0,0,0,0);
+  const elapsed = Math.max(10,(payment-midnight)/60000);
+  const fractions=[.43,.455,.474,.565];
 
-  const totalSpan = Math.max(90, (latestPaymentTime - dayStart) / 60000);
-  const scatterFractions = [0, .61, .66, .70, .84];
-
-  const todayTimes = scatterFractions.map(frac => {
-    const d = new Date(latestPaymentTime.getTime() - totalSpan * frac * 60000);
-    if (d < dayStart) return new Date(dayStart);
-    return d;
+  const earlierToday=fractions.map(f=>{
+    const minutesBack=Math.max(1,Math.round(elapsed*f));
+    const t=new Date(payment.getTime()-minutesBack*60000);
+    if(t<midnight) return new Date(midnight.getTime()+5*60000);
+    return t;
   });
 
-  const yesterdayBase = new Date(now);
-  yesterdayBase.setDate(yesterdayBase.getDate() - 1);
-  yesterdayBase.setHours(19, 7, 0, 0);
+  const yesterday = new Date(payment);
+  yesterday.setDate(yesterday.getDate()-1);
+  const at=(base,h,m)=>{
+    const d=new Date(base); d.setHours(h,m,0,0); return d;
+  };
 
-  const twoDaysAgo = new Date(now);
-  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-  twoDaysAgo.setHours(18, 26, 0, 0);
+  const older = new Date(payment);
+  older.setDate(older.getDate()-2);
 
-  const groups = [
+  const groups=[
     {
-      label: sameLocalDay(latestPaymentTime, now) ? "Heute" : "Gestern",
-      transactions: [
-        {id:"stb-latest", name:"STB Bucuresti", amount:-3, time:todayTimes[0], icon:"stb", clickable:true},
-        {id:"metro-today", name:"Metrorex", amount:-5, time:todayTimes[1], icon:"metro"},
-        {id:"stb-big", name:"STB Bucuresti", amount:-80, time:todayTimes[2], icon:"stb"},
-        {id:"mega-today", name:"Mega Image", amount:-7.24, time:todayTimes[3], icon:"mega"},
-        {id:"radu", name:"Radu Teodor Juncu", amount:2000, time:todayTimes[4], icon:"person"}
+      label:sameDay(payment,now)?"Heute":"Gestern",
+      rows:[
+        {id:"latest",name:"STB Bucuresti",amount:-3,time:payment,logo:"stb.png",click:true},
+        {name:"Metrorex",amount:-5,time:earlierToday[0],logo:"metrorex.png"},
+        {name:"STB Bucuresti",amount:-80,time:earlierToday[1],logo:"stb.png"},
+        {name:"Mega Image",amount:-7.24,time:earlierToday[2],logo:"mega-image.png"},
+        {name:"Radu Teodor Juncu",amount:2000,time:earlierToday[3],logo:"radu.png",person:true}
       ]
     },
     {
       label:"Gestern",
-      transactions:[
-        {name:"Mega Image", amount:-4.79, time:yesterdayBase, icon:"mega"},
-        {name:"Metrorex", amount:-5, time:new Date(yesterdayBase.getTime()-85*60000), icon:"metro"},
-        {name:"5 to go", amount:-13.40, time:new Date(yesterdayBase.getTime()-215*60000), icon:"coffee"},
-        {name:"Carrefour Market", amount:-19.36, time:new Date(yesterdayBase.getTime()-360*60000), icon:"market"},
-        {name:"Radu Teodor Juncu", amount:150, time:new Date(yesterdayBase.getTime()-510*60000), icon:"person"}
+      rows:[
+        {name:"Mega Image",amount:-4.79,time:at(yesterday,19,7),logo:"mega-image.png"},
+        {name:"Metrorex",amount:-5,time:at(yesterday,17,42),logo:"metrorex.png"},
+        {name:"STB Bucuresti",amount:-3,time:at(yesterday,16,20),logo:"stb.png"},
+        {name:"Mega Image",amount:-12.76,time:at(yesterday,13,5),logo:"mega-image.png"},
+        {name:"Metrorex",amount:-17,time:at(yesterday,9,35),logo:"metrorex.png"}
       ]
     },
     {
-      label:deDate(twoDaysAgo),
-      transactions:[
-        {name:"Metrorex", amount:-5, time:twoDaysAgo, icon:"metro"},
-        {name:"Mega Image", amount:-12.38, time:new Date(twoDaysAgo.getTime()-120*60000), icon:"mega"},
-        {name:"STB Bucuresti", amount:-3, time:new Date(twoDaysAgo.getTime()-265*60000), icon:"stb"}
+      label:new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(older),
+      rows:[
+        {name:"STB Bucuresti",amount:-3,time:at(older,18,26),logo:"stb.png"},
+        {name:"Mega Image",amount:-11.49,time:at(older,16,11),logo:"mega-image.png"},
+        {name:"Metrorex",amount:-5,time:at(older,13,38),logo:"metrorex.png"},
+        {name:"Mega Image",amount:-8.25,time:at(older,9,52),logo:"mega-image.png"}
       ]
     }
   ];
 
-  const txContainer = document.getElementById("transactionsContainer");
+  const total=rows=>rows.reduce((s,r)=>s+r.amount,0);
 
-  function logoMarkup(icon){
-    if(icon === "stb") return `<div class="tx-logo">STB</div>`;
-    if(icon === "metro") return `<div class="tx-logo metro"><span>M</span></div>`;
-    if(icon === "mega") return `<div class="tx-logo mega">MEGA<br>IMAGE</div>`;
-    if(icon === "person") return `<div class="tx-logo person">RT<span class="tx-arrow-badge">←</span></div>`;
-    if(icon === "coffee") return `<div class="tx-logo coffee">5</div>`;
-    return `<div class="tx-logo market">C</div>`;
-  }
-
-  function groupTotal(txs){
-    return txs.reduce((sum,t)=>sum+t.amount,0);
+  function logo(row){
+    return `<div class="tx-logo">
+      <img src="./${row.logo}" alt="">
+      ${row.person?'<span class="person-badge">←</span>':""}
+    </div>`;
   }
 
   function render(filter=""){
-    const q = filter.trim().toLocaleLowerCase("de-DE");
-    txContainer.innerHTML = "";
+    const q=filter.trim().toLocaleLowerCase("de-DE");
+    const host=document.getElementById("groups");
+    host.innerHTML="";
 
-    groups.forEach(group => {
-      const visible = group.transactions.filter(t =>
-        !q || t.name.toLocaleLowerCase("de-DE").includes(q)
-      );
+    groups.forEach(group=>{
+      const visible=group.rows.filter(r=>!q||r.name.toLocaleLowerCase("de-DE").includes(q));
       if(!visible.length) return;
 
-      const section = document.createElement("section");
-      section.className = "section";
-
-      const heading = document.createElement("div");
-      heading.className = "section-heading";
-      heading.innerHTML = `
-        <div class="section-title">${group.label}</div>
-        <div class="section-total">${amountText(groupTotal(group.transactions))}</div>
+      const section=document.createElement("section");
+      section.className="section";
+      section.innerHTML=`
+        <div class="section-heading">
+          <div class="section-title">${group.label}</div>
+          <div class="section-total">${money(total(group.rows))}</div>
+        </div>
+        <div class="tx-card"></div>
       `;
-      section.appendChild(heading);
 
-      const card = document.createElement("div");
-      card.className = "tx-card";
+      const card=section.querySelector(".tx-card");
 
-      visible.forEach(t => {
-        const btn = document.createElement("button");
-        btn.className = "tx";
-        btn.type = "button";
-        btn.innerHTML = `
-          ${logoMarkup(t.icon)}
-          <div class="tx-main">
-            <div class="tx-name">${t.name}</div>
-            <div class="tx-time">${hhmm(t.time)}</div>
+      visible.forEach(row=>{
+        const b=document.createElement("button");
+        b.type="button";
+        b.className="tx";
+        b.innerHTML=`
+          ${logo(row)}
+          <div>
+            <div class="tx-name">${row.name}</div>
+            <div class="tx-time">${hm(row.time)}</div>
           </div>
-          <div class="tx-amount ${t.amount>0 ? "positive" : ""}">${amountText(t.amount)}</div>
+          <div class="tx-amount ${row.amount>0?"positive":""}">${money(row.amount)}</div>
         `;
-        if(t.clickable){
-          btn.addEventListener("click", openDetail);
-        }
-        card.appendChild(btn);
+        if(row.click) b.addEventListener("click",openDetail);
+        card.appendChild(b);
       });
 
-      section.appendChild(card);
-      txContainer.appendChild(section);
+      host.appendChild(section);
     });
   }
 
-  const transactionsPage = document.getElementById("transactionsPage");
-  const detailPage = document.getElementById("detailPage");
-  const detailDate = document.getElementById("detailDate");
-  const statusText = document.getElementById("statusText");
+  const listPage=document.getElementById("listPage");
+  const detailPage=document.getElementById("detailPage");
 
   function openDetail(){
-    const label = sameLocalDay(latestPaymentTime, now)
-      ? `Heute, ${hhmm(latestPaymentTime)}`
-      : `${deDate(latestPaymentTime)}, ${hhmm(latestPaymentTime)}`;
+    document.getElementById("detailDate").textContent =
+      `${sameDay(payment,now)?"Heute":deLong(payment)}, ${hm(payment)}`;
 
-    detailDate.textContent = label;
+    const reversal=new Date(payment);
+    reversal.setDate(reversal.getDate()+9);
 
-    const refundDate = new Date(latestPaymentTime);
-    refundDate.setDate(refundDate.getDate()+9);
+    document.getElementById("status").textContent =
+      `Ausstehend • Wird am ${deLong(reversal)} automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht`;
 
-    statusText.textContent =
-      `Ausstehend • Wird am ${new Intl.DateTimeFormat("de-DE",{day:"numeric",month:"long"}).format(refundDate)} automatisch rückgängig gemacht, wenn nicht vom Händler beansprucht`;
-
-    transactionsPage.classList.add("hidden-left");
+    listPage.classList.add("hidden-left");
     detailPage.classList.remove("hidden-right");
-    detailPage.querySelector(".scroll").scrollTop = 0;
+    detailPage.querySelector(".scroll").scrollTop=0;
   }
 
-  function closeDetail(){
-    transactionsPage.classList.remove("hidden-left");
+  document.getElementById("closeDetail").addEventListener("click",()=>{
+    listPage.classList.remove("hidden-left");
     detailPage.classList.add("hidden-right");
-  }
+  });
 
-  document.getElementById("closeDetail").addEventListener("click", closeDetail);
-  document.getElementById("searchInput").addEventListener("input", e => render(e.target.value));
+  document.getElementById("search").addEventListener("input",e=>render(e.target.value));
 
   render();
+
+  if("serviceWorker" in navigator && location.protocol==="https:"){
+    navigator.serviceWorker.register("./sw.js").catch(()=>{});
+  }
 })();
 </script>
 </body>
