@@ -189,8 +189,8 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
   letter-spacing:-.05px
 }
 .split-icon{
-  width:19px;
-  height:19px;
+  width:21px;
+  height:21px;
   object-fit:contain;
   display:block;
   flex:none
@@ -406,17 +406,16 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
   letter-spacing:.18em;text-transform:uppercase;white-space:nowrap;pointer-events:none;
 }
 .statement-wrap{
-  padding:34px 4px calc(34px + env(safe-area-inset-bottom));
+  width:100%;
+  padding:28px 5px calc(34px + env(safe-area-inset-bottom));
   display:flex;
   justify-content:center;
-  align-items:flex-start;
-  width:100%;
+  align-items:flex-start
 }
 .statement-paper{
   position:relative;
-  width:calc(100% - 8px);
-  max-width:420px;
-  aspect-ratio:1163 / 1667;
+  width:calc(100% - 10px);
+  max-width:418px;
   background:#fff;
   box-shadow:0 2px 12px rgba(0,0,0,.26);
   overflow:hidden;
@@ -425,18 +424,21 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
 .statement-paper img{
   display:block;
   width:100%;
-  height:100%;
+  height:auto;
+  max-width:100%;
   object-fit:contain;
   background:#fff
 }
 .statement-date-overlay{
   position:absolute;
-  top:11.5%;
-  right:6.7%;
-  width:30%;
+  top:11.25%;
+  right:6.3%;
+  width:31%;
   text-align:right;
+  padding:2px 0;
+  background:#fff;
   font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  font-size:clamp(4px,1.25vw,5.3px);
+  font-size:clamp(4px,1.25vw,5.2px);
   line-height:1.15;
   color:#4a4a4f;
   font-weight:500;
@@ -597,13 +599,13 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
         <div class="detail-name">STB Bucuresti</div>
         <div class="detail-amount">-3 lei</div>
         <div class="detail-date" id="detailDate">Heute, 18:33</div>
-        <button class="split"><img class="split-icon" src="./split-icon.png" alt="">Rechnung aufteilen</button>
+        <button class="split"><img class="split-icon" src="./split-icon-v13.png" alt="">Rechnung aufteilen</button>
       </div>
     </div>
 
     <div class="detail-body">
       <div class="info reward">
-        <img class="reward-icon" src="./reward-badge.png" alt="">
+        <img class="reward-icon" src="./reward-badge-v12.png" alt="">
         <div class="reward-close">×</div>
         <div class="reward-title">Belohnungen verpasst</div>
         <div class="reward-copy">Verdiene Belohnungen für deine Ausgaben</div>
@@ -700,7 +702,7 @@ body.detail-open,body.detail-open .app{background:var(--detail)}
 
     <div class="statement-wrap">
       <div class="statement-paper">
-        <img src="./statement-paper.png" alt="Kontoauszug">
+        <img src="./statement-paper-v12.png" alt="Kontoauszug">
         <div class="statement-date-overlay" id="statementDateOverlay">Generiert am 17.09.2026</div>
       </div>
     </div>
