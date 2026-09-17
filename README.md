@@ -71,3 +71,10 @@ A centered watermark with the user's name appears in the dark top bar above the 
 - Added 32×32 and 64×64 favicon PNGs
 
 The visible school-project/UI-simulation marking in the interface remains unchanged.
+
+
+## v10 fixes
+- Replaced the split-button `Y` with a PNG cropped from the original screenshot
+- Replaced the reward icon with a PNG cropped from the original screenshot
+- Made the `-3 lei` amount bolder
+- Fixed the statement page so the white paper fits correctly on mobile instead of overflowing/cropping
